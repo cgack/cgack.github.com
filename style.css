@@ -1,0 +1,11 @@
+body {
+    background-color: #574643;
+}
+#container {
+	margin: 0 auto;
+	width:960px;
+}
+.header {
+	color: #bada55;
+	text-align:right;
+}
