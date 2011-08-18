@@ -42,12 +42,16 @@ body, ul{
 
 /*submenu*/
 .menu li ul{
-	background:#333333;
+	background:none;
 	display:none;
 	height:auto;
 	padding:0;
 	position:absolute;
 	z-index:2;
+}
+
+.menu li ul li{
+	background:#333333;
 }
 .menu li:hover ul{
 	display:block;
@@ -74,7 +78,9 @@ body, ul{
 	text-align:left;
 }
 .menu li ul a:hover, .menu li ul li:hover a{
-border:0;
-color:#ffffff;
-text-decoration:none;
+
+	background-color: #CCCCC4;
+	color: #333333;
+	border:0;
+	text-decoration:none;
 } 
