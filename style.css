@@ -1,6 +1,14 @@
 body {
-    background-color: #574643;
+    background-color: #333333;
 }
+a {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color:lightgray;
+}
+
 #container {
 	margin: 0 auto;
 	width:960px;
@@ -11,5 +19,5 @@ body {
 }
 .section {
 	color: #FFFD75;
-	
+	width: 604px;
 }

@@ -34,7 +34,6 @@ $(function () {
 		var mnu = $(".menu")[0];
 		ctx.lineCap = "round";
 		resizeCvs();
-		ctx.font = '18px helvetica';
 		ctx.save();
 		ctx.fillStyle = '#fff';
 		
@@ -74,6 +73,7 @@ $(function () {
 					break;
 				case Mode.write:
 					ctx.fillText(prompt('insert text', ''), e.pageX - left, e.pageY - top);
+					storeHistory();
 					break;
 			}
         }
@@ -113,14 +113,13 @@ $(function () {
     });
 
 	$('#clear').click(function (e) {
-        e.preventDefault();
         initializeCvs();
         $('#colors li:first').click();
         $('#brush_size').change();
     });
     
     $('#undo').click(function (e) {
-        e.preventDefault();
+    	e.preventDefault();
         undoDraw();
     });
 
@@ -130,13 +129,27 @@ $(function () {
 	});
 	
 	$("#draw").click(function (e) {
+		e.preventDefault();
 		mode = Mode.drawing;
 	});
 	
 	$("#text").click(function (e) {
+		e.preventDefault();
 		mode = Mode.write;
 	});
 	
+	$("#colors li").click(function (e) { 
+		e.preventDefault();
+		mode = Mode.drawing;
+		ctx.strokeStyle = $(this).css("background-color");
+	});
+	
+	$("#fonts li").click(function (e) {
+		e.preventDefault();
+		mode = Mode.write;
+		ctx.font = '18px ' + $(this).css("font-family");
+	});
+
 	$(document).keyup(function (e) { 
 		if(e.which == 17) {
 			ctrlPressed = false;
