@@ -23,9 +23,20 @@ body, ul{
 	padding:0;
 }
 
+.menu label {
+	line-height: 2em;
+	color: #CCCCCC;
+	text-align: center;
+	text-decoration: none;
+}
+
+.menu input {
+	width:3em;
+}
 .menu li a:hover {
 	background-color: #CCCCC4;
 	color: #333333;
+	cursor: pointer;
 }
 
 

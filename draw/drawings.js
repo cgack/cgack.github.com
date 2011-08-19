@@ -1,14 +1,17 @@
-var Mode = { drawing: 0, write: 1 };
+$(function () {  
 
-$(function () {            
+	var Mode = { drawing: 0, write: 1 };          
 
 	var ctx = document.getElementById("canvas").getContext("2d") 
 		, canvas = document.getElementById("canvas")
 		, $cvs = $("#canvas")
+		, img
 		, top = $cvs.offset().top 
 		, left = $cvs.offset().left
 		, draw = 0
 		, mode = Mode.drawing
+		, curFont = "Helvetica"
+		, curFontSz = "18px"
 		, ctrlPressed = false; 
                    
     
@@ -16,7 +19,6 @@ $(function () {
 		if (event.state !== null) {							
 			var img = new Image();
 			$(img).load(function () {
-				var ctx = document.getElementById("canvas").getContext("2d");
 				ctx.drawImage(img, 0, 0);
 			});
 			img.src = event.state.imageData;
@@ -45,7 +47,7 @@ $(function () {
 	var blankCanvas = true;
 
 	var storeHistory = function () {
-		var img = document.getElementById("canvas").toDataURL("image/png");
+		img = canvas.toDataURL("image/png");
 		history.pushState({ imageData: img }, "i", window.location.href);
 		$('#undo').removeAttr('disabled');
 	};
@@ -114,8 +116,6 @@ $(function () {
 
 	$('#clear').click(function (e) {
         initializeCvs();
-        $('#colors li:first').click();
-        $('#brush_size').change();
     });
     
     $('#undo').click(function (e) {
@@ -130,11 +130,13 @@ $(function () {
 	
 	$("#draw").click(function (e) {
 		e.preventDefault();
+		$("label[for='sizer']").text("line size:");
 		mode = Mode.drawing;
 	});
 	
 	$("#text").click(function (e) {
 		e.preventDefault();
+		$("label[for='sizer']").text("font size:");
 		mode = Mode.write;
 	});
 	
@@ -147,7 +149,20 @@ $(function () {
 	$("#fonts li").click(function (e) {
 		e.preventDefault();
 		mode = Mode.write;
-		ctx.font = '18px ' + $(this).css("font-family");
+		curFont = $(this).css("font-family")
+		ctx.font = curFontSz + " " + curFont;
+	});
+	
+	$("#sizer").change(function (e) {
+		switch(mode) {
+			case Mode.drawing:
+				ctx.lineWidth = parseInt($(this).val(), 10);
+				break;
+			case Mode.write:
+				curFontSz = parseInt($(this).val(), 10) + "px";
+				ctx.font = curFontSz + " " + curFont;
+				break;
+		}
 	});
 
 	$(document).keyup(function (e) { 
