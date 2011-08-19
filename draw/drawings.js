@@ -1,31 +1,18 @@
 $(function () {  
 
-	var Mode = { drawing: 0, write: 1 };          
+	var Mode = { drawing: 0, write: 1 };
 
-	var ctx = document.getElementById("canvas").getContext("2d") 
-		, canvas = document.getElementById("canvas")
-		, $cvs = $("#canvas")
-		, img
-		, top = $cvs.offset().top 
-		, left = $cvs.offset().left
-		, draw = 0
-		, mode = Mode.drawing
-		, curFont = "Helvetica"
-		, curFontSz = "18px"
-		, ctrlPressed = false; 
-                   
-    
-	window.onpopstate = function (event) {
-		if (event.state !== null) {							
-			var img = new Image();
-			$(img).load(function () {
-				ctx.drawImage(img, 0, 0);
-			});
-			img.src = event.state.imageData;
-		}
-	};
-	
-	$(window).resize(resizeCvs);
+	var ctx = document.getElementById("canvas").getContext("2d")
+		,canvas = document.getElementById("canvas")
+		,$cvs = $("#canvas")
+		,img
+		,top = $cvs.offset().top
+		,left = $cvs.offset().left
+		,draw = 0
+		,mode = Mode.drawing
+		,curFont = "Helvetica"
+		,curFontSz = "18px"
+		,ctrlPressed = false; 
 
 	var resizeCvs = function() {
 		ctx.canvas.width = $(window).width();
@@ -53,17 +40,17 @@ $(function () {
 	};
 
 	var undoDraw = function () {
-		window.history.back();   
-		$('#redo').removeAttr('disabled');      
+		window.history.back();
+		$('#redo').removeAttr('disabled');
 	};
 
 	var redoDraw = function () {
-		window.history.forward();						
+		window.history.forward();
 	};
 	
 	$cvs.mousedown(function (e) {
-        if (e.button === 0) {
-            if (blankCanvas) {
+		if (e.button === 0) {
+			if (blankCanvas) {
 				storeHistory();
 				blankCanvas = false;
 			}
@@ -74,17 +61,17 @@ $(function () {
 					ctx.moveTo(e.pageX - left, e.pageY - top);
 					break;
 				case Mode.write:
-					ctx.fillText(prompt('insert text', ''), e.pageX - left, e.pageY - top);
+					ctx.fillText(prompt('text to insert', ''), e.pageX - left, e.pageY - top);
 					storeHistory();
 					break;
 			}
-        }
-        else{
-            draw = 0;
-        }
-    })
-    .mouseup(function (e) {
-        if(e.button === 0){
+		}
+		else{
+			draw = 0;
+		}
+	})
+	.mouseup(function (e) {
+		if(e.button === 0){
 			switch (mode) {
 				case Mode.drawing:
 					draw = 0;
@@ -99,10 +86,10 @@ $(function () {
         }
         else {
 			draw = 1;
-        }
-    })
-    .mousemove(function (e) {
-        if(draw === 1){
+		}
+	})
+	.mousemove(function (e) {
+		if(draw === 1){
 			switch (mode) {
 				case Mode.drawing:
 					ctx.lineTo(e.pageX-left+1, e.pageY-top+1);
@@ -115,13 +102,13 @@ $(function () {
     });
 
 	$('#clear').click(function (e) {
-        initializeCvs();
-    });
-    
-    $('#undo').click(function (e) {
-    	e.preventDefault();
-        undoDraw();
-    });
+		initializeCvs();
+	});
+	
+	$('#undo').click(function (e) {
+		e.preventDefault();
+	undoDraw();
+	});
 
 	$("#redo").click(function (e) {
 		e.preventDefault();
@@ -142,14 +129,16 @@ $(function () {
 	
 	$("#colors li").click(function (e) { 
 		e.preventDefault();
+		$("label[for='sizer']").text("line size:");
 		mode = Mode.drawing;
 		ctx.strokeStyle = $(this).css("background-color");
 	});
 	
 	$("#fonts li").click(function (e) {
 		e.preventDefault();
+		$("label[for='sizer']").text("font size:");
 		mode = Mode.write;
-		curFont = $(this).css("font-family")
+		curFont = $(this).css("font-family");
 		ctx.font = curFontSz + " " + curFont;
 	});
 	
@@ -166,24 +155,38 @@ $(function () {
 	});
 
 	$(document).keyup(function (e) { 
-		if(e.which == 17) {
+		if(e.which === 17) {
 			ctrlPressed = false;
 		} 
 	})
 	.keydown(function (e) { 
-		if(e.which == 17) {
+		if(e.which === 17) {
 			 ctrlPressed = true; 
 		}
 		//ctrl + z
-		if(e.which == 90 && ctrlPressed == true) {
+		if(e.which === 90 && ctrlPressed === true) {
 			undoDraw(); 
 		} 
 		//ctrl + y
-		if(e.which == 89 && ctrlPressed == true) {
+		if(e.which === 89 && ctrlPressed === true) {
 			redoDraw(); 
 		} 
 	});
 
 	initializeCvs();
+	
+	window.onpopstate = function (event) {
+		if (event.state !== null) {
+			var img = new Image();
+			$(img).load(function () {
+				ctx.drawImage(img, 0, 0);
+			});
+			img.src = event.state.imageData;
+		}
+	};
+	
+	window.onresize = function() {
+		resizeCvs();
+	};
 });
 
