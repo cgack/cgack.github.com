@@ -12,42 +12,58 @@ $(function () {
 		,mode = Mode.drawing
 		,curFont = "Helvetica"
 		,curFontSz = "18px"
-		,ctrlPressed = false; 
+		,ctrlPressed = false
+		,histCount = 1
+		,blankCanvas = true;
+
 
 	var resizeCvs = function() {
 		ctx.canvas.width = $(window).width();
 		ctx.canvas.height = $(window).height();
 		};
 	
-	var initializeCvs = function () {
+	var initializeCvs = function (clearing) {
 		var mnu = $(".menu")[0];
 		ctx.lineCap = "round";
 		resizeCvs();
 		ctx.save();
-		ctx.fillStyle = '#fff';
-		
-
+		ctx.fillStyle = '#ffffff';
 		ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		ctx.restore();
-	};
 
-	var blankCanvas = true;
+		if (window.localStorage && !clearing) { 
+			img = new Image();
+			$(img).load(function () {
+				ctx.drawImage(img, 0, 0);
+			});
+			img.src = localStorage.curImg;		
+		}
+		if (clearing) { storeHistory(); }
+	};
 
 	var storeHistory = function () {
 		img = canvas.toDataURL("image/png");
 		history.pushState({ imageData: img }, "i", window.location.href);
+		histCount++;
 		$('#undo').removeAttr('disabled');
+		if (window.localStorage) { localStorage.curImg = img; }
 	};
 
 	var undoDraw = function () {
 		window.history.back();
 		$('#redo').removeAttr('disabled');
+		histCount--;
 	};
 
 	var redoDraw = function () {
 		window.history.forward();
+		histCount++;
 	};
 	
+	var backout = function () {
+		window.history.go("-" + histCount);	
+	};
+
 	$cvs.mousedown(function (e) {
 		if (e.button === 0) {
 			if (blankCanvas) {
@@ -61,7 +77,7 @@ $(function () {
 					ctx.moveTo(e.pageX - left, e.pageY - top);
 					break;
 				case Mode.write:
-					ctx.fillText(prompt('text to insert', ''), e.pageX - left, e.pageY - top);
+					ctx.fillText(prompt('Text to Insert', ''), e.pageX - left, e.pageY - top);
 					storeHistory();
 					break;
 			}
@@ -102,7 +118,7 @@ $(function () {
     });
 
 	$('#clear').click(function (e) {
-		initializeCvs();
+		initializeCvs(true);
 	});
 	
 	$('#undo').click(function (e) {
@@ -114,29 +130,34 @@ $(function () {
 		e.preventDefault();
 		redoDraw();								
 	});
+
+	$("#backout").click(function (e) {
+		e.preventDefault();
+		backout();
+	});	
 	
 	$("#draw").click(function (e) {
 		e.preventDefault();
-		$("label[for='sizer']").text("line size:");
+		$("label[for='sizer']").text("Line Size:");
 		mode = Mode.drawing;
 	});
 	
 	$("#text").click(function (e) {
 		e.preventDefault();
-		$("label[for='sizer']").text("font size:");
+		$("label[for='sizer']").text("Font Size:");
 		mode = Mode.write;
 	});
 	
 	$("#colors li").click(function (e) { 
 		e.preventDefault();
-		$("label[for='sizer']").text("line size:");
+		$("label[for='sizer']").text("Line Size:");
 		mode = Mode.drawing;
 		ctx.strokeStyle = $(this).css("background-color");
 	});
 	
 	$("#fonts li").click(function (e) {
 		e.preventDefault();
-		$("label[for='sizer']").text("font size:");
+		$("label[for='sizer']").text("Font Size:");
 		mode = Mode.write;
 		curFont = $(this).css("font-family");
 		ctx.font = curFontSz + " " + curFont;
@@ -177,7 +198,7 @@ $(function () {
 	
 	window.onpopstate = function (event) {
 		if (event.state !== null) {
-			var img = new Image();
+			img = new Image();
 			$(img).load(function () {
 				ctx.drawImage(img, 0, 0);
 			});
