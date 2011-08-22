@@ -251,7 +251,9 @@ $(function () {
 			$(img).load(function () {
 				ctx.drawImage(img, 0, 0);				
 			});
-			img.src = localStorage.curImg;		
+			if (localStorage.curImg) {
+				img.src = localStorage.curImg;		
+			}
 		}
 	};
 });
