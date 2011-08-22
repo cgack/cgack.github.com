@@ -82,13 +82,11 @@ $(function () {
 		img = canvas.toDataURL("image/png");
 		history.pushState({ imageData: img }, "i", window.location.href);
 		histCount++;
-		$('#undo').removeAttr('disabled');
 		if (window.localStorage) { localStorage.curImg = img; }
 	};
 
 	var undoDraw = function () {
 		window.history.back();
-		$('#redo').removeAttr('disabled');
 		histCount--;
 	};
 
@@ -245,6 +243,13 @@ $(function () {
 	
 	window.onresize = function() {
 		resizeCvs();
+		if (window.localStorage) {
+			img = new Image();
+			$(img).load(function () {
+				ctx.drawImage(img, 0, 0);				
+			});
+			img.src = localStorage.curImg;		
+		}
 	};
 });
 
