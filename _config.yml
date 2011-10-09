@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://cgack.github.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: Cory Gackenheimer
+subtitle: Software Engineer | JavaScript Enthusiast
+author: Cory Gackenheimer
 simple_search: http://google.com/search
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
@@ -49,13 +49,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 # ----------------------- #
 
 # Github repositories
-github_user:
+github_user: cgack
 github_repo_count: 0
 github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
+twitter_user: cgack
 twitter_tweet_count: 4
 twitter_show_replies: false
 twitter_follow_button: true
