@@ -1,0 +1,17 @@
+--- 
+layout: post
+title: Chrome Dev Tools as an IDE
+published: true
+meta: 
+  blogger_2793cf708e8c8748ef8252fb855a3f5a_permalink: "1069319577707889253"
+  blogger_author: Cory Gackenheimer
+  blogger_blog: go-cloud-go.blogspot.com
+tags: 
+- chrome os
+- dev tools
+- IDE
+- JavaScript
+type: post
+status: publish
+---
+I've spent a lot of time trying to find the best development method in Chrome OS.  Recently I decided I wanted to create a chrome extension using Chrome OS.  My first stop was CodeRun IDE which has a sample Chrome Extension project so I thought it would be great for a starter.  The development is pretty mess free, but the problem comes once its downloaded.  It comes downloaded and zipped.  When loading an unpackaged Chrome Extension you can point Chrome to a directory, but not a zipped directory.  So I had to unzip the files...which was pretty easy to do once I found <a href="http://wobzip.org/">wobzip</a>.<br /><br />Now that I had a skeleton Chrome Extension up and running, I could start to make it my own.  I decided on a simple calculator for starters, plus I thought it might be useful.  I have to admit it had been a while since I'd used the user 'chronos' in Developer mode, but once I got it there I found that Chrome OS had a new default text editor (thankfully) in 'vi'.  This is where it got really fun.  I edited my popup.html file to have a stylesheet and JavaScript file and loaded the html directly in Chrome.  Enter the best web app ever... Chrome Dev Tools.<br /><br />With Dev tools I am able to make changes to my stylesheets through the inspector to get the style just how I want, then save the modified .css file to the extension directory. <br /> Similarly, I can edit and save versions of my JavaScript file directly from Dev tools.  The only issue with this is when I overlooked some invalid code which prevented Chrome from loading the JavaScript file.  This was not much of an issue the one time it happened to me, as I was able to enter vi and quickly rectify the rogue curly brace and was back to Dev Tools in no time.  So If you ask me what my choice is for rapid JavaScript development, I'll say Chrome Dev Tools.<br /><br /> The result from blank files to:<br /><br /><br />and <br /><br /><div class="blogger-post-footer"><img width='1' height='1' src='https://blogger.googleusercontent.com/tracker/7333770831047956364-1069319577707889253?l=go-cloud-go.blogspot.com' alt='' /></div>

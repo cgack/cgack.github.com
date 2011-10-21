@@ -1,0 +1,17 @@
+--- 
+layout: post
+title: Cloud9 revisited
+published: true
+meta: 
+  blogger_2793cf708e8c8748ef8252fb855a3f5a_permalink: "764076792241002278"
+  blogger_author: Cory Gackenheimer
+  blogger_blog: go-cloud-go.blogspot.com
+tags: 
+- chrome os
+- cr-48
+- IDE
+- JavaScript
+type: post
+status: publish
+---
+A while ago I <a href="http://go-cloud-go.blogspot.com/2011/03/coding-in-cloud-part.html">tried to use Cloud9 IDE</a> to code in the cloud on my Cr-48 and it was too buggy to even try to accomplish anything in it.  It now appears that the issues have been resolved.  I have been interested in learning some of the awesome that is <a href="http://nodejs.org/">node.js</a>.  I could easily move to my Ubuntu partition, install and build node, and try it there.  However, I really like Chrome OS and I've really been enjoying my other Google V8 JavaScript engine based development with <a href="http://www.akshell.com/">Akshell</a> so why not try Node.js in the cloud too.  Cloud9 is the perfect place for this.<br /><br />First let me say the the github integration with Cloud9 is super smooth.  To start editing a github based project just enter the github url and click "start editing".  So I created a new github repository and started a simple web server with node to see how it would go.  I checked out one of Ryan Dahl's (the creator of node.js) introductory videos to get a simple server created in my server JavaScript file.   Then I setup the server configuration in Cloud9 which only required me to tell it which JavaScript file to use and what command line arguments to send it (i.e. "node server.js") to get it running.  Cloud9 does not let you specify a port number like one would in a desktop environment, but they add a helpful hint when running a server "Important: in your scripts, use 'process.env.C9_PORT' as port and '0.0.0.0' as host."  So I modified the server file with the tip, clicked run and sure enough I created a node.js server.<br /><br />I think using node.js on Cloud9 is up to par with any other web-based IDE.  One thing it lacks versus something like Akshell or Kodingen is the ability to deploy to a subdomain directly.  I can however build my app up (if I continue to use Cloud9 versus Akshell) and then deploy to a node.js hosting platform like <a href="https://www.duostack.com/">duostack</a>.  For now I plan on using Cloud9 to learn some node.js and see what things I can make with that.<div class="blogger-post-footer"><img width='1' height='1' src='https://blogger.googleusercontent.com/tracker/7333770831047956364-764076792241002278?l=go-cloud-go.blogspot.com' alt='' /></div>
