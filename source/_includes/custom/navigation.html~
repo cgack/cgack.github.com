@@ -1,5 +1,0 @@
-<ul class="main-navigation">
-  <li><a href="http://blog.cgack.com">Blog</a></li>
-  <li><a href="{{ root_url }}/blog/archives">Archives</a></li>
-	<li><a href="{{ root_url }}/Projects">Projects</a></li>
-</ul>

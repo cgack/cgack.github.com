@@ -3,8 +3,8 @@
 # ----------------------- #
 
 url: http://cgack.github.com
-title: Cory Gackenheimer
-subtitle: Software Engineer | JavaScript Enthusiast
+title: cgack
+subtitle: Software Physicist | JavaScript Enthusiast
 author: Cory Gackenheimer
 simple_search: http://google.com/search
 
@@ -35,7 +35,7 @@ excerpt_link: "Read on &rarr;"  # "Continue reading" link text at the bottom of 
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html]
+default_asides: [asides/github.html, asides/twitter.html, asides/recent_posts.html, asides/delicious.html, asides/pinboard.html]
 #asides/recent_post.html
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
