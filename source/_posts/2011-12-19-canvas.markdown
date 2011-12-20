@@ -6,7 +6,6 @@ comments: true
 categories: 
 ---
 
-
 A few months ago I entered the [August Mozilla Dev Derby](https://developer.mozilla.org/en-US/demos/devderby/2011/august/), which focused on the History API. I have seen some of the amazing things that the new changes to this interface have been able to make from folks like [Facebook](https://www.facebook.com/note.php?note_id=438532093919) and [GitHub](https://github.com/blog/760-the-tree-slider) but I wanted to try something a little different. I had been hacking on a simple drawing canvas and decided that I could leverage the History API to create a more application like experience. Since winning the Derby, I've seen my code improved and extended in a [later Dev Derby Entry](https://developer.mozilla.org/en-US/demos/detail/paint-search), and I turned it into a sample [application](https://apps-preview.mozilla.org/en-US/apps/app/draw/?src=cb-dl-free) for [Mozilla's new App experience](https://apps-preview.mozilla.org/en-US/apps/). Here’s a peek into the process of creating a drawing demo like the one I created.
 
 ##Basic Setup
