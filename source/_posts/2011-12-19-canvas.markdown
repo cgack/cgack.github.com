@@ -1,0 +1,162 @@
+---
+layout: post
+title: "Canvas, History, LocalStorage and More"
+date: 2011-12-19 18:17
+comments: true
+categories: 
+---
+
+
+A few months ago I entered the [August Mozilla Dev Derby](https://developer.mozilla.org/en-US/demos/devderby/2011/august/), which focused on the History API. I have seen some of the amazing things that the new changes to this interface have been able to make from folks like [Facebook](https://www.facebook.com/note.php?note_id=438532093919) and [GitHub](https://github.com/blog/760-the-tree-slider) but I wanted to try something a little different. I had been hacking on a simple drawing canvas and decided that I could leverage the History API to create a more application like experience. Since winning the Derby, I've seen my code improved and extended in a [later Dev Derby Entry](https://developer.mozilla.org/en-US/demos/detail/paint-search), and I turned it into a sample [application](https://apps-preview.mozilla.org/en-US/apps/app/draw/?src=cb-dl-free) for [Mozilla's new App experience](https://apps-preview.mozilla.org/en-US/apps/). Here’s a peek into the process of creating a drawing demo like the one I created.
+
+##Basic Setup
+
+Firstly, we’re going to need to create a canvas.  This is pretty straightforward for those who have done this sort of thing before, but for a reminder that can look like the following
+
+		<!DOCTYPE html>
+		<html>
+		<body>
+		 <div id="content">
+		    <canvas id="canvas" height="500" width="500"></canvas>
+		 </div>
+		</body>
+		</html>
+
+Now that we have our canvas we can start to initialize it and get ready to roll with the fun features we’d like to demonstrate. 
+
+	var canvas = document.getElementById("canvas"),
+	    ctx = canvas.getContext("2d"),
+	    img, //more about this later
+	    blankCanvas = true; //this too
+
+We now need to set it up to allow for drawing.  This is done by adding a event listeners to the mouse events we’d like to watch.
+
+	window.addEventListener("mousedown", setupDraw, false);
+	window.addEventListener("mousemove", setupDraw, false);
+	window.addEventListener("mouseup", setupDraw, false);
+
+You’ll notice the setupDraw function is called on all of these events.  This function will grab the coordinates of our pointer (less the offset of our lovely #content div and send those to our draw object.
+
+	function setupDraw(event) {
+	    var cnt = document.getElementById("content"),
+	        coordinates = {
+	            x: event.pageX - cnt.offsetLeft,
+	            y: event.pageY - cnt.offsetTop
+	          };
+	    draw[event.type](coordinates);
+	};
+	 
+Now time for the drawing I’ll go ahead and let you peek at the source so you can follow along.
+
+	var draw = {
+	    isDrawing: false,
+	    mousedown: function(coordinates) {
+	        ctx.beginPath();
+	        ctx.moveTo(coordinates.x, coordinates.y);
+	        this.isDrawing = true;
+	    },
+	    mousemove: function(coordinates) {
+	        if (this.isDrawing) {
+	            ctx.lineTo(coordinates.x, coordinates.y);
+	            ctx.stroke();
+	        }
+	    },
+	    mouseup: function(coordinates) {
+	        this.isDrawing = false;
+	        ctx.lineTo(coordinates.x, coordinates.y);
+	        ctx.stroke();
+	        ctx.closePath();
+	      }
+	};
+
+You’ll see this object directs to an event type specific function and handles the coordinates parameters which are passed into the object.  Following some basic canvas drawing steps for ctx.beginPath() -> ctx.moveTo(x,y) -> ctx.lineTo(x,y) -> ctx.stroke() -> ctx.closePath() we now have the ability to draw with our mouse.  The “isDrawing” property is there to let us know to continue our strokes on mousemove.  Now that we have an example that allows us to draw, we’ll move forward to make it more interesting by utilizing the History API and LocalStorage.  
+
+##About the History API
+
+One of the new features in HTML5 (an subject of the Dev Derby) is the additional features of the History API.   These are history.pushState(data,title [,url]) and history.replaceState(data, title [,url] ) which are utilized to directly push (or replace) data in the session history.  For the purposes of this demo we’ll be using pushState to add data, specifically the image data from the canvas, to the current URL.  Now this alone is not enough we will also need to know when the current state changes, which is made accessible to us via the window.onpopstate event.  This event fires when the browser gets a new history event.  We can inspect the event to see if it contains a state and then load the data (hopefully our image) into the canvas.  So to get things wired up correctly, its time to add a function to store the history.
+
+	var storeHistory = function () {
+	    img = canvas.toDataURL("image/png");
+	    history.pushState({ imageData: img }, "", window.location.href);
+	};
+
+This grabs the data from the canvas in the form of a “data:image/png...” url.  Then we create a new history state by pushing an imageData attribute for later retrieval.  Now, before we add the calls to storeHistory to our drawing application, we need to do a bit of preventative maintenance.  If we store this data and navigate backward without a reinitialization of the canvas, we will just draw the stored imageData onto the existing image.  To us this will look like it isn’t working so we need to add an initialization function to reset our canvas.  
+
+	var initializeCvs = function () {
+	    ctx.lineCap = "round";
+	    ctx.save();
+	    ctx.fillStyle = '#ffffff';
+	    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+	    ctx.restore();
+	}
+
+Now we can go about the business of storing our history states.  The code that follows will store history in two places.  The first place it stores is if the canvas is blank it stores that before drawing anything.  The second is on the mouseup event after  the line is completed.  Now our draw object looks like this:
+
+
+	var draw = {
+	    isDrawing: false,
+	    mousedown: function(coordinates) {
+	        if (blankCanvas) { storeHistory(); blankCanvas = false; }
+	        ctx.beginPath();
+	        ctx.moveTo(coordinates.x, coordinates.y);
+	        this.isDrawing = true;
+	    },
+	    mousemove: function(coordinates) {
+	        if (this.isDrawing) {
+	            ctx.lineTo(coordinates.x, coordinates.y);
+	            ctx.stroke();
+	        }
+	    },
+	    mouseup: function(coordinates) {
+	        this.isDrawing = false;
+	        ctx.lineTo(coordinates.x, coordinates.y);
+	        ctx.stroke();
+	        ctx.closePath();
+	        storeHistory();
+	    }
+	};
+
+
+Awesome, now we have started storing history on the page with each completed line.  Now we need to be able to see the results of this work when the history state changes.  As I mentioned earlier this is done via the window.onpopstate event.  We will examine the imageData of the state (if it exists) and place that image on the canvas as follows: 
+
+	 window.onpopstate = function (event) {
+	        if (event.state !== null) {
+	            img = new Image();
+	            img.onload =function () {
+	                ctx.drawImage(img, 0, 0);
+	            };
+	            img.src = event.state.imageData;
+	        }
+	    };
+
+Splendid, we now  have a drawing tool that stores history so we can undo and redo drawings.  But wait!  What happens if I’m in the middle of a canvas masterpiece and my browser crashes?  Lets handle that with localStorage.  With localStorage we can store a named item locally independent of our session, so in the event of leaving the page, we can retrieve data from our previous encounter.  In this demo I did a simple test of the window.localStorage object to see if we can store data, and then I store the latest image so upon return you’ll at least be able to recover that data.  Here are the initializeCanvas and storeHistory functions with this additional feature added:
+
+
+	var initializeCvs = function () {
+	    ctx.lineCap = "round";
+	    ctx.save();
+	    ctx.fillStyle = '#ffffff';
+	    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+	    ctx.restore();
+	 
+	    if (window.localStorage) {
+	        img = new Image();
+	        img.onload = function () {
+	            ctx.drawImage(img, 0, 0);
+	        };
+	        if (localStorage.curImg) {
+	            img.src = localStorage.curImg;
+	            blankCanvas = false;
+	        }
+	    }
+	}
+	    
+	var storeHistory = function () {
+	    img = canvas.toDataURL("image/png");
+	    history.pushState({ imageData: img }, "", window.location.href);
+	    
+	    if (window.localStorage) { localStorage.curImg = img; }
+	};
+
+
+  You can see the full working demo in [this jsFiddle](http://jsfiddle.net/cgack/JHr2P/).
