@@ -1,0 +1,27 @@
+---
+layout: post
+title: "Remote Debugging Tools"
+date: 2012-05-06 10:24
+comments: true
+categories: 
+---
+
+Recently I have been working on some mobile content for a couple of my personal projects. And since working on the front-end of these projects involves spending some quality time with developer tools, I have also been spending some quality time utilizing a few different remote debugging tools. In the last few years the remote debugging tool category of software has grown rapidly which makes deciding on the best tool, somewhat similar to finding your favorite dev tools setup in your browser of choice. Just as some folks prefer debugging their front-end with Firebug, Opera Dragonfly, or Chrome Developer Tools (WebKit Inspector), there is now a similarly robust selection for remote debugging for mobile devices.
+
+Built by Remy Sharp, [JsConsole.com](http://jsconsole.com/) is perhaps the simplest and most accessible tool for remote debugging. Simply include the remote.js file in your html,
+	<script src="http://jsconsole.com/remote.js?IDENTIFIER"></script>
+ navigate to jsconsole.com, ":listen", and you now have access to your remote device.  Works splendedly, but doesn't have all the bells and wistles that come along with the advancing browser dev tools. I use this tool a ton for remote debugging work, especially since it works across browsers on my mobile device. Another tool that I have utilized and is quite popular due to its association with PhoneGap, is [Weinre](http://people.apache.org/~pmuellr/weinre/docs/latest/) or WebKit Inspector Remote. With this you simply run a server locally that will allow you to debug remotely utilizing a set of the WebKit Inspector toolset (Google Chrome, Safari) - provided you supply a target.js script in your source. Again this is not a full set of the tools which are normally available to a Chrome Dev Tools, Firebug, Dragonfly user, but is quite adequate and useful on multiple target browsers. I rarely utilize Weinre, but many developers find it a critical part of their workflow.
+
+Opera Dragonfly has a great remote debugging experience baked into their tools. One simply tells Opera Desktop to initiate a remote listening session, then Opera Mobile "opera:debug", and you can inspect your remote page in Dragonfly. Honestly, I have limited experience here, because I rarely utilize Dragonfly, even though the tools are quite robust. 
+
+So what is my go to remote debugging tool today? Chrome. I am most comfortable with the Chrome Dev Tools in all my other debugging for a number of reasons including the continuous insertion of handy new features. So once I upgraded my phone to Android 4 (Ice Cream Sandwich) - which is required to utilize Chrome For Android - I have been happily utilizing the full suite of Developer Tools in Chrome to inspect my mobile app on my Android device. Again, the best solution for me because I can utilize the same toolset for desktop or mobile debugging.  Its pretty simple to setup, just get your Android device set up for usb debugging in both the Android settings and Chrome settings, then (via the Android SDK) setup a debug bridge that will forward your console to a port of your choosing allowing you to open localhost:9222 which shows all your tabs open on your phone, ready for inspection. Start listening on that port using a script like this in your terminal:
+	
+	adb forward tcp:9222 localabstract:chrome_devtools_remote
+
+Rather than go through my terminal command history to find the command and possibly change the port, I aliased the command in my .bashrc file so anytime I hook up my phone I can type "cremote <port>" and inspect away
+	
+	function cremote() {
+		adb forward tcp:$@ localabstract:chrome_devtools_remote
+	}
+
+From there its on to your browser to find and inspect away to your hearts content. This remote debugging space is growing quickly, the upcoming version of many toolset have this capability built in directly, things like jsBin (v3), jsfiddle, Firefox dev tools, Adobe Shadow, Trigger.io's remote inspector, and many others I'm sure are all available, or will be available to utilize as a remote debugger. So the developer wins in the end with a host of choices to choose from so they can find that which fits their needs and workflow.

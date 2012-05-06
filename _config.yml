@@ -4,7 +4,7 @@
 
 url: http://cgack.github.com
 title: cgack
-subtitle: JavaScript Enthusiast
+subtitle: Web Developer. JavaScript Enthusiast. Scientist from Earth.
 author: Cory Gackenheimer
 simple_search: http://google.com/search
 
@@ -75,7 +75,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: cgack
 disqus_show_comment_count: false
 
 # Google Analytics
