@@ -18,7 +18,7 @@ So what is my go to remote debugging tool today? Chrome. I am most comfortable w
 	
 	adb forward tcp:9222 localabstract:chrome_devtools_remote
 
-Rather than go through my terminal command history to find the command and possibly change the port, I aliased the command in my .bashrc file so anytime I hook up my phone I can type "cremote <port>" and inspect away
+Rather than go through my terminal command history to find the command and possibly change the port, I aliased the command in my .bashrc file so anytime I hook up my phone I can type `cremote 9222` in the terminal and inspect away
 	
 	function cremote() {
 		adb forward tcp:$@ localabstract:chrome_devtools_remote
