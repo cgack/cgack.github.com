@@ -1,0 +1,52 @@
+---
+layout: post
+title: "TypeScript"
+date: 2012-10-03
+comments: false
+---
+
+<div class='post'>
+This week Microsoft released its shiny new JavaScript pre-processor - <a href="http://www.typescriptlang.org/">TypeScript</a>. It represents a superset of JavaScript that is designed for large-scale application development. It utilizes concepts that most developers are comfortable with in their non JavaScript languages. Things like Classes, Modules, and Type checking.<br /><br />These are all things that many people complain that JavaScript does not have built in.&nbsp; With TypeScript, JavaScript does not magically gain these things. TypeScript makes these things accessible to a developer through its pre processing. Developers and JavaScript do not need TypeScript, and it is not a requirement to build large scale applications. It won't magically make crappy programming better, but it may help catch a gotcha for someone every now and again, just as <a href="http://www.jshint.com/">JSHint</a> would. I for one think that it will take off rather well, especially in the ASP.Net community. I also will probably try it out in a project or two or three. I like that it looks and feels like JavaScript, which is a syntax that I am comfortable with.&nbsp; That is one reason why I have not adopted <a href="http://coffeescript.org/">CoffeeScript</a>, it just looks so foreign to me. I suppose if I were a full time Ruby on Rails developer, CoffeeScript would feel right, but I'm not, so it doesn't.<br /><br />I'm going to end this by just showing the difference between TypeScript and JavaScript. It is subtle and that is appealing to me. See the comparisons below:<br /><br />
+<pre>
+<code>
+// TypeScript
+class Greeter {
+	greeting: string;
+	constructor (message: string) {
+		this.greeting = message;
+	}
+	greet() {
+		return "Hello, " + this.greeting;
+	}
+}   
+ 
+var greeter = new Greeter("world");
+ 
+var button = document.createElement('button')
+button.innerText = "Say Hello"
+button.onclick = function() {
+	alert(greeter.greet())
+}
+ 
+document.body.appendChild(button);
+
+// JavaScript
+var Greeter = (function () {
+    function Greeter(message) {
+        this.greeting = message;
+    }
+    Greeter.prototype.greet = function () {
+        return "Hello, " + this.greeting;
+    };
+    return Greeter;
+})();
+var greeter = new Greeter("world");
+var button = document.createElement('button');
+button.innerText = "Say Hello";
+button.onclick = function () {
+    alert(greeter.greet());
+};
+document.body.appendChild(button);
+</code>
+</pre>
+</div>

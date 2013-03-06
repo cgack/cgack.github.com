@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Chrome Dev Tools as an IDE"
+date: 2011-07-07
+comments: false
+categories:
+ - JavaScript
+ - IDE
+ - chrome os
+ - dev tools
+---
+
+<div class='post'>
+I've spent a lot of time trying to find the best development method in Chrome OS. &nbsp;Recently I decided I wanted to create a chrome extension using Chrome OS. &nbsp;My first stop was CodeRun IDE which has a sample Chrome Extension project so I thought it would be great for a starter. &nbsp;The development is pretty mess free, but the problem comes once its downloaded. &nbsp;It comes downloaded and zipped. &nbsp;When loading an unpackaged Chrome Extension you can point Chrome to a directory, but not a zipped directory. &nbsp;So I had to unzip the files...which was pretty easy to do once I found <a href="http://wobzip.org/">wobzip</a>.<br /><br />Now that I had a skeleton Chrome Extension up and running, I could start to make it my own. &nbsp;I decided on a simple calculator for starters, plus I thought it might be useful. &nbsp;I have to admit it had been a while since I'd used the user 'chronos' in Developer mode, but once I got it there I found that Chrome OS had a new default text editor (thankfully) in 'vi'. &nbsp;This is where it got really fun. &nbsp;I edited my popup.html file to have a stylesheet and JavaScript file and loaded the html directly in Chrome. &nbsp;Enter the best web app ever... Chrome Dev Tools.<br /><br />With Dev tools I am able to make changes to my stylesheets through the inspector to get the style just how I want, then save the modified .css file to the extension directory. <br />&nbsp;Similarly, I can edit and save versions of my JavaScript file directly from Dev tools. &nbsp;The only issue with this is when I overlooked some invalid code which prevented Chrome from loading the JavaScript file. &nbsp;This was not much of an issue the one time it happened to me, as I was able to enter vi and quickly rectify the rogue curly brace and was back to Dev Tools in no time. &nbsp;So If you ask me what my choice is for rapid JavaScript development, I'll say Chrome Dev Tools.<br /><br />&nbsp;The result from blank files to:<script src="https://gist.github.com/1070989.js?file=gistfile1.css"></script><br /><br /><br />and <br /><br /><script src="https://gist.github.com/1070992.js?file=gistfile1.js"></script></div>
