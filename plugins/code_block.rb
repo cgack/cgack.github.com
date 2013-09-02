@@ -49,8 +49,7 @@ module Jekyll
   class CodeBlock < Liquid::Block
     include HighlightCode
     include TemplateWrapper
-    CaptionUrlTitle = /(\S[\S\s]*)\s+(https?:\/\/)(\S+)\s+(.+)/i
-    CaptionUrl = /(\S[\S\s]*)\s+(https?:\/\/)(\S+)/i
+    CaptionUrlTitle = /(\S[\S\s]*)\s+(https?:\/\/\S+|\/\S+)\s*(.+)?/i
     Caption = /(\S[\S\s]*)/
     def initialize(tag_name, markup, tokens)
       @title = nil
@@ -63,10 +62,7 @@ module Jekyll
       end
       if markup =~ CaptionUrlTitle
         @file = $1
-        @caption = "<figcaption><span>#{$1}</span><a href='#{$2 + $3}'>#{$4}</a></figcaption>"
-      elsif markup =~ CaptionUrl
-        @file = $1
-        @caption = "<figcaption><span>#{$1}</span><a href='#{$2 + $3}'>link</a></figcaption>"
+        @caption = "<figcaption><span>#{$1}</span><a href='#{$2}'>#{$3 || 'link'}</a></figcaption>"
       elsif markup =~ Caption
         @file = $1
         @caption = "<figcaption><span>#{$1}</span></figcaption>\n"
@@ -79,7 +75,7 @@ module Jekyll
 
     def render(context)
       output = super
-      code = super.join
+      code = super
       source = "<figure class='code'>"
       source += @caption if @caption
       if @filetype
@@ -90,6 +86,7 @@ module Jekyll
       source = safe_wrap(source)
       source = context['pygments_prefix'] + source if context['pygments_prefix']
       source = source + context['pygments_suffix'] if context['pygments_suffix']
+      source
     end
   end
 end

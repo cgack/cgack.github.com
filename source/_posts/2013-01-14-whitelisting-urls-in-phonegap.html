@@ -1,0 +1,59 @@
+---
+layout: post
+title: "Whitelisting URLs in PhoneGap"
+date: 2013-01-14
+comments: true 
+---
+
+<div class='post'>
+I've built a couple of HTML5 (jQuery Mobile) applications that have also targeted native app stores using PhoneGap. When building these applications, it becomes clear that to get desired navigation in iOS, one must carefully consider the PhoneGap settings for url handling "OpenAllWhitelistURLsInWebView" and "ExternalHosts".  In many configurations this results in setting the "OpenAllWhitelistURLsInWebView" to "YES" and Subsequently setting a single "ExternalHost" as "*" in order to keep your application functioning within the WebView exclusively. This is great for everything except where you wish to open an external link that would break your HTML5 applications navigation (due to a lack of back button). What follows are a few tricks I have picked up to help with whitelisting.  In many cases you know when you're building your application where you'd like to have the external links open, in which case you can set these external links within your Objective-C source code letting the applicaiton know which links to open.  This would look something like the following Gist (which looks to the prefix of the URL in order to open a link outside of the WebView):  <br />
+<pre><code>
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if ((navigationType == UIWebViewNavigationTypeLinkClicked) &&
+        ([[[request URL] absoluteString] hasPrefix:@"https://www.google.com"])) 
+    {
+      [[UIApplication sharedApplication] openURL:request.URL];
+      return NO;
+    }
+    return YES;
+}
+</code>
+</pre>In other cases, your application may allow for some dynamic client created content to come from the server. This can mean either a maintenance nightmare for setting up this prefixed whitelist, where you get to update the whitelist and resubmit the app to Apple everytime the list changes (icky).... Or we can come up with a solution that works better.  One way in which this can be accomplished is by looking to the suffix of the URL to find a querystring parameter that would indicate that we need to open external.  <br /><pre><code>
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+  if ((navigationType == UIWebViewNavigationTypeLinkClicked) && ([[url absoluteString] hasSuffix:@"?openExternal=1"] ))
+  {
+    [[UIApplication sharedApplication] openURL:url];
+    return NO;
+  
+  }
+  
+  return YES;
+}
+</code>
+</pre>A perhaps more robust solution, allow for the conversion of any link with target="_blank" to open in Safari. This solution is inspired by <a href="http://www.rigelgroupllc.com/blog/2012/05/22/opening-links-in-phonegap-apps-in-mobile-safari/">this</a> where you tell your iOS app to find a specified document fragment, and also tell your web application to ensure that target="_blank" links always have such a fragment.  The Obj-C code looks like this:  <br />
+<pre>
+<code>
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+  NSURL *url = [request URL];
+  if ( ([url fragment] != NULL) && ([[url fragment] rangeOfString:@"openExternal=true"].location != NSNotFound) )
+  {
+    if ([[UIApplication sharedApplication] canOpenURL:url]) {
+      [[UIApplication sharedApplication] openURL:url];
+      return NO;
+    }
+  }
+  return YES;
+}
+</code>
+</pre>
+and telling the webapp to set this fragment (using jQuery) looks as follows: <br />
+<pre>
+<code>
+/* turn all target = _blanks into whitelisted urls */
+$(document).on("click", function (event) {
+  if (event.target.target === "_blank" && event.target.href.indexOf("#openExternal=true") === -1) {
+    event.target.href = event.target.href + "#openExternal=true";
+  }
+});
+</code>
+</pre></div>

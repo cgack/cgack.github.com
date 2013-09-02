@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 layout: page
+=======
+layout: default
+>>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
 ---
 
 <div class="blog-index">
@@ -10,6 +14,7 @@ layout: page
       {% include article.html %}
     </article>
   {% endfor %}
+<<<<<<< HEAD
   <nav class="pagination">
     <div>
       {% if paginator.next_page %}
@@ -21,6 +26,17 @@ layout: page
       {% endif %}
     </div>
   </nav>
+=======
+  <div class="pagination">
+    {% if paginator.next_page %}
+      <a class="prev" href="{{paginator.next_page}}">&larr; Older</a>
+    {% endif %}
+    <a href="/blog/archives">Blog Archives</a>
+    {% if paginator.previous_page %}
+    <a class="next" href="{{paginator.previous_page}}">Newer &rarr;</a>
+    {% endif %}
+  </div>
+>>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
 </div>
 <aside class="sidebar">
   {% if site.blog_index_asides.size %}
@@ -28,4 +44,8 @@ layout: page
   {% else %}
     {% include_array default_asides %}
   {% endif %}
+<<<<<<< HEAD
 </aside>
+=======
+</aside>
+>>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
