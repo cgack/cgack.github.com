@@ -1,8 +1,4 @@
 article {
-<<<<<<< HEAD
-  overflow: hidden;
-=======
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
   padding-top: 1em;
   a { @extend .force-wrap; }
   header {
@@ -77,11 +73,8 @@ article {
     p.meta {
       margin-bottom: .8em;
       font-size: .85em;
-<<<<<<< HEAD
-=======
       clear: both;
       overflow: hidden;
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
     }
     .byline + time:before, time +time:before, .comments:before, .byline ~ .categories:before {
       @extend .separator;
@@ -129,23 +122,12 @@ article + article {
   display: inline-block;
 }
 
-<<<<<<< HEAD
-#content nav.pagination {
-  text-align: center;
-  font-size: .95em;
-  div {
-    position: relative;
-    background: $img-border top left repeat-x;
-    padding: {top: 1.5em; bottom: 1.5em;}
-  }
-=======
 #content div.pagination {
   text-align: center;
   font-size: .95em;
   position: relative;
   background: $img-border top left repeat-x;
   padding: {top: 1.5em; bottom: 1.5em;}
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
   a {
     text-decoration: none;
     color: $text-color-light;

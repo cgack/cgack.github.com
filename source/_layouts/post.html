@@ -15,10 +15,6 @@ single: true
     {% unless page.sharing == false %}
       {% include post/sharing.html %}
     {% endunless %}
-<<<<<<< HEAD
-  </footer>
-
-=======
     <p class="meta">
       {% if page.previous.url %}
         <a class="basic-alignment left" href="{{page.previous.url}}" title="Previous Post: {{page.previous.title}}">&laquo; {{page.previous.title}}</a>
@@ -28,7 +24,6 @@ single: true
       {% endif %}
     </p>
   </footer>
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
 </article>
 {% if site.disqus_short_name and page.comments == true %}
   <section>
@@ -36,20 +31,6 @@ single: true
     <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
   </section>
 {% endif %}
-<<<<<<< HEAD
-  <script type="text/javascript"><!--
-google_ad_client = "ca-pub-9193213214746362";
-/* cgack_small */
-google_ad_slot = "3954454515";
-google_ad_width = 234;
-google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-=======
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
 </div>
 {% unless page.sidebar == false %}
 <aside class="sidebar">

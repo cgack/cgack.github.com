@@ -14,13 +14,10 @@ $sidebar-width-wide: 300px !default;
 
 $indented-lists: false !default;
 
-<<<<<<< HEAD
-=======
 $header-font-size: 1em !default;
 $header-padding-top: 1.5em !default;
 $header-padding-bottom: 1.5em !default;
 
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
 .group { @include pie-clearfix; }
 
 @mixin collapse-sidebar {
@@ -51,11 +48,7 @@ body {
   max-width: $max-width;
   position: relative;
   margin: 0 auto;
-<<<<<<< HEAD
-  > header, > nav, > footer, #content > article, #content > div > article, #content > div > section, nav.pagination {
-=======
   > header, > nav, > footer, #content > article, #content > div > article, #content > div > section {
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
     @extend .group;
     padding-left: $pad-min;
     padding-right: $pad-min;
@@ -72,14 +65,6 @@ body {
       padding-right: $pad-wide;
     }
   }
-<<<<<<< HEAD
-  > header {
-    font-size: 1em;
-  }
-}
-
-#content { > div, > article { width: 100%; }}
-=======
   div.pagination {
     @extend .group;
     margin-left: $pad-min;
@@ -108,7 +93,6 @@ body {
   overflow: hidden;
   > div, > article { width: 100%; }
 }
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
 
 aside.sidebar {
   float: none;
@@ -138,22 +122,11 @@ body.sidebar-footer {
 }
 
 @media only screen and (min-width: 550px) {
-<<<<<<< HEAD
-  body > header { font-size: 1em; }
-=======
   body > header { font-size: $header-font-size; }
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
 }
 @media only screen and (min-width: 750px) {
   aside.sidebar { @include collapse-sidebar; }
 }
-<<<<<<< HEAD
-@media only screen and (min-width: 768px) {
-  body { -webkit-text-size-adjust: auto; }
-  body > header { font-size: 1.2em; }
-  #main {
-    @extend .group;
-=======
 #main, #content, .sidebar {
   @extend .group;
 }
@@ -161,16 +134,11 @@ body.sidebar-footer {
   body { -webkit-text-size-adjust: auto; }
   body > header { font-size: $header-font-size * 1.2; }
   #main {
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
     padding: 0;
     margin: 0 auto;
   }
   #content {
-<<<<<<< HEAD
-    @extend .group;
-=======
     overflow: visible;
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
     margin-right: $sidebar-width-medium;
     position: relative;
     .no-sidebar & { margin-right: 0; border-right: 0; }
@@ -182,10 +150,6 @@ body.sidebar-footer {
     }
   }
   aside.sidebar {
-<<<<<<< HEAD
-    @extend .group;
-=======
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
     width: $sidebar-width-medium - $sidebar-pad-medium*2;
     padding: 0 $sidebar-pad-medium $sidebar-pad-medium;
     background: none;
@@ -203,11 +167,7 @@ body.sidebar-footer {
 }
 
 @media only screen and (min-width: 992px) {
-<<<<<<< HEAD
-  body > header { font-size: 1.3em; }
-=======
   body > header { font-size: $header-font-size * 1.3; }
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
   #content { margin-right: $sidebar-width-wide; }
   #content {
     > div, > article {
@@ -220,10 +180,6 @@ body.sidebar-footer {
     padding: 1.2em $sidebar-pad-wide $sidebar-pad-wide;
     .collapse-sidebar & {
       padding: { left: $pad-wide; right: $pad-wide; }
-<<<<<<< HEAD
-      @extend .group;
-=======
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
     }
   }
 }
@@ -233,7 +189,4 @@ body.sidebar-footer {
     ul, ol { margin-left: 0; }
   }
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e

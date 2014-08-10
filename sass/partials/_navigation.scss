@@ -1,11 +1,7 @@
 body > nav {
   position: relative;
   background-color: $nav-bg;
-<<<<<<< HEAD
-  @include background(image-url('noise.png'), linear-gradient(lighten($nav-bg, 8), $nav-bg, darken($nav-bg, 11)));
-=======
   @include background($nav-bg-front, $nav-bg-back);
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
   border: {
     top: 1px solid $nav-border-top;
     bottom: 1px solid $nav-border-bottom; }
@@ -17,11 +13,7 @@ body > nav {
     .search {
       padding: .3em .5em 0;
       font-size: .85em;
-<<<<<<< HEAD
-      @extend .sans;
-=======
       font-family: $sans;
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
       line-height: 1.1em;
       width: 95%;
       @include border-radius(.5em);
@@ -41,11 +33,7 @@ body > nav {
   }
   fieldset[role=search]{ float: right; width: 48%; }
   fieldset.mobile-nav{ float: left; width: 48%;
-<<<<<<< HEAD
     select{ width: 100%; font-size: .8em; border: 1px solid #888;}
-=======
-    select{ width: 100%; font-size: 1em; border: none;}
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
   }
   ul { display: none; }
   @media only screen and (min-width: 550px) {
@@ -66,11 +54,7 @@ body > nav {
     }
     a {
       @include link-colors($nav-color, $nav-color-hover, $visited: $nav-color);
-<<<<<<< HEAD
-      @extend .sans;
-=======
       font-family: $sans;
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
       text-shadow: lighten($nav-bg, 12) 0 1px;
       float: left;
       text-decoration: none;
@@ -150,7 +134,4 @@ body > nav {
   a[rel=subscribe-rss]{ @include mask-subscription-nav('rss.png'); }
   a[rel=subscribe-email]{ @include mask-subscription-nav('email.png'); }
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e

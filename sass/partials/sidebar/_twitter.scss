@@ -13,11 +13,7 @@
     position: relative;
     padding-right: 1em;
   }
-<<<<<<< HEAD
-  a[href*=status]{
-=======
   a[href*=status]:first-child {
->>>>>>> 078c2a32134a4fe409884612ddc8e5b62c435a9e
     color: $twitter-status-link;
     float: right;
     padding: 0 0 .1em 1em;
