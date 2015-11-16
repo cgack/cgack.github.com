@@ -74,6 +74,88 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
+    <article id="post-2012-10-03-typescript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/10/03/2012-10-03-typescript/" class="article-date">
+  <time datetime="2012-10-03T04:00:00.000Z" itemprop="datePublished">2012-10-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/10/03/2012-10-03-typescript/">TypeScript</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+This week Microsoft released its shiny new JavaScript pre-processor - <a href="http://www.typescriptlang.org/" target="_blank" rel="external">TypeScript</a>. It represents a superset of JavaScript that is designed for large-scale application development. It utilizes concepts that most developers are comfortable with in their non JavaScript languages. Things like Classes, Modules, and Type checking.<br><br>These are all things that many people complain that JavaScript does not have built in.&nbsp; With TypeScript, JavaScript does not magically gain these things. TypeScript makes these things accessible to a developer through its pre processing. Developers and JavaScript do not need TypeScript, and it is not a requirement to build large scale applications. It won't magically make crappy programming better, but it may help catch a gotcha for someone every now and again, just as <a href="http://www.jshint.com/" target="_blank" rel="external">JSHint</a> would. I for one think that it will take off rather well, especially in the ASP.Net community. I also will probably try it out in a project or two or three. I like that it looks and feels like JavaScript, which is a syntax that I am comfortable with.&nbsp; That is one reason why I have not adopted <a href="http://coffeescript.org/" target="_blank" rel="external">CoffeeScript</a>, it just looks so foreign to me. I suppose if I were a full time Ruby on Rails developer, CoffeeScript would feel right, but I'm not, so it doesn't.<br><br>I'm going to end this by just showing the difference between TypeScript and JavaScript. It is subtle and that is appealing to me. See the comparisons below:<br><br>
+<pre>
+<code>
+// TypeScript
+class Greeter {
+	greeting: string;
+	constructor (message: string) {
+		this.greeting = message;
+	}
+	greet() {
+		return "Hello, " + this.greeting;
+	}
+}   
+ 
+var greeter = new Greeter("world");
+ 
+var button = document.createElement('button')
+button.innerText = "Say Hello"
+button.onclick = function() {
+	alert(greeter.greet())
+}
+ 
+document.body.appendChild(button);
+
+// JavaScript
+var Greeter = (function () {
+    function Greeter(message) {
+        this.greeting = message;
+    }
+    Greeter.prototype.greet = function () {
+        return "Hello, " + this.greeting;
+    };
+    return Greeter;
+})();
+var greeter = new Greeter("world");
+var button = document.createElement('button');
+button.innerText = "Say Hello";
+button.onclick = function () {
+    alert(greeter.greet());
+};
+document.body.appendChild(button);
+</code>
+</pre>
+</div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2012/10/03/2012-10-03-typescript/" data-id="cih2eb2x5000zwklgtjbcr0c4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-2012-08-01-liberated-pixel-cup" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2012/08/01/2012-08-01-liberated-pixel-cup/" class="article-date">
@@ -128,7 +210,7 @@ The other major hurdle I faced was the scenes when jumping from one map to anoth
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2012/08/01/2012-08-01-liberated-pixel-cup/" data-id="cih2dpy90000r9slgd1pdhnmz" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2012/08/01/2012-08-01-liberated-pixel-cup/" data-id="cih2eb2x90010wklgehw1ilqj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -167,7 +249,7 @@ Months ago I set out to create a nodejs based app for one of our office favorite
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2012/07/11/2012-07-11-wizard/" data-id="cih2dpy95000s9slgvkqfcmt4" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2012/07/11/2012-07-11-wizard/" data-id="cih2eb2xc0011wklggocx421n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +288,7 @@ Months ago I set out to create a nodejs based app for one of our office favorite
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2012/05/06/2012-05-06-remote-debugging-tools/" data-id="cih2dpy9b000t9slgcwdldb3o" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2012/05/06/2012-05-06-remote-debugging-tools/" data-id="cih2eb2xd0012wklgux2s7hye" class="article-share-link">Share</a>
       
       
     </footer>
@@ -245,7 +327,7 @@ Months ago I set out to create a nodejs based app for one of our office favorite
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2012/01/27/2012-01-27-deviceorientation-events/" data-id="cih2dpy9l000u9slgbzpmvspr" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2012/01/27/2012-01-27-deviceorientation-events/" data-id="cih2eb2xf0013wklgue9ulkqi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -284,7 +366,7 @@ Months ago I set out to create a nodejs based app for one of our office favorite
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2012/01/07/2012-01-07-widget/" data-id="cih2dpy9q000v9slg6gh08bma" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2012/01/07/2012-01-07-widget/" data-id="cih2eb2xi0014wklgymwx1vb1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -323,7 +405,7 @@ Months ago I set out to create a nodejs based app for one of our office favorite
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2011/12/28/2011-12-28-collision-detection-on-canvas/" data-id="cih2dpya1000w9slgbxg5hcl4" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2011/12/28/2011-12-28-collision-detection-on-canvas/" data-id="cih2eb2xv0015wklghfp4gxd9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -362,7 +444,7 @@ Months ago I set out to create a nodejs based app for one of our office favorite
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2011/12/23/2011-12-23-book-review-tangled-web/" data-id="cih2dpya7000x9slgcqlm2l53" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2011/12/23/2011-12-23-book-review-tangled-web/" data-id="cih2eb2xz0016wklgk1f2cybn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -401,7 +483,7 @@ Months ago I set out to create a nodejs based app for one of our office favorite
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/" data-id="cih2dpyaj000y9slgm9i6gx01" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/" data-id="cih2eb2yf0017wklgnuxrhhpx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -440,46 +522,7 @@ I started blogging here a while back, mostly about the cloud and what I could do
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2011/11/11/2011-11-11-moving-to-octopress/" data-id="cih2dpyap000z9slgd6ry42zl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-2011-10-24-firefox-add-on-automated-updates" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2011/10/24/2011-10-24-firefox-add-on-automated-updates/" class="article-date">
-  <time datetime="2011-10-24T04:00:00.000Z" itemprop="datePublished">2011-10-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2011/10/24/2011-10-24-firefox-add-on-automated-updates/">Firefox Add-on Automated Updates</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-<div class="post">
-Since Firefox moved to a rapid release cycle, there has been concern by some (including myself) as to whether add-ons would stay compatible with each of the new versions, and how one would go about testing to find any breaking changes.&nbsp; In news that makes a geek happy - Mozilla has taken care of that for me as I received notice from Mozilla that stated:<br><blockquote class="tr_bq">Dear add-on author,<br><br>Good news! Our automated tests did not detect any compatibility issues  with your add-on Google Music Hotkeys and Firefox 9.*. We've updated  your add-on's compatibility to work with Firefox 9.* so that our Aurora  users can begin using it.</blockquote><blockquote class="tr_bq">This compatibility bump is server-side and we did not modify your add-on  package in any way. If you wish or need to revert this change, just go  to your add-on edit page on <a href="http://addons.mozilla.org/" target="_blank">addons.mozilla.org</a>, select the Status &amp; Versions page, then the version, and change its maxVersion compatibility back to its previous value.<br><br>For more information on our new compatibility process with rapid Firefox releases, please read this post: <a href="http://blog.mozilla.com/addons/2011/04/19/add-on-compatibility-rapid-releases/" target="_blank">http://blog.mozilla.com/<wbr>addons/2011/04/19/add-on-<wbr>compatibility-rapid-releases/</a> </blockquote></div>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://cgack.github.io/2011/10/24/2011-10-24-firefox-add-on-automated-updates/" data-id="cih2dpyax00109slgrgejlomg" class="article-share-link">Share</a>
+      <a data-url="http://cgack.github.io/2011/11/11/2011-11-11-moving-to-octopress/" data-id="cih2eb2yr0018wklgp7a96g4t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -504,7 +547,7 @@ Since Firefox moved to a rapid release cycle, there has been concern by some (in
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/3G/">3G</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Book/">Book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/">IDE</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactJS/">ReactJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aviary/">aviary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chrome-os/">chrome os</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/">cloud</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cr-48/">cr-48</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dev-tools/">dev tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/verizon/">verizon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wi-fi/">wi-fi</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/3G/">3G</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Book/">Book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/">IDE</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactJS/">ReactJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angular/">angular</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aviary/">aviary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chrome-os/">chrome os</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/">cloud</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code/">code</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cr-48/">cr-48</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dev-tools/">dev tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/teaching/">teaching</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/verizon/">verizon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wi-fi/">wi-fi</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -513,7 +556,7 @@ Since Firefox moved to a rapid release cycle, there has been concern by some (in
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/3G/" style="font-size: 10px;">3G</a> <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/IDE/" style="font-size: 15px;">IDE</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactJS/" style="font-size: 10px;">ReactJS</a> <a href="/tags/aviary/" style="font-size: 10px;">aviary</a> <a href="/tags/chrome-os/" style="font-size: 20px;">chrome os</a> <a href="/tags/cloud/" style="font-size: 18.33px;">cloud</a> <a href="/tags/coding/" style="font-size: 16.67px;">coding</a> <a href="/tags/cr-48/" style="font-size: 13.33px;">cr-48</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/dev-tools/" style="font-size: 11.67px;">dev tools</a> <a href="/tags/google/" style="font-size: 10px;">google</a> <a href="/tags/html5/" style="font-size: 11.67px;">html5</a> <a href="/tags/verizon/" style="font-size: 10px;">verizon</a> <a href="/tags/wi-fi/" style="font-size: 10px;">wi-fi</a>
+      <a href="/tags/3G/" style="font-size: 10px;">3G</a> <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/IDE/" style="font-size: 15px;">IDE</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactJS/" style="font-size: 10px;">ReactJS</a> <a href="/tags/angular/" style="font-size: 10px;">angular</a> <a href="/tags/aviary/" style="font-size: 10px;">aviary</a> <a href="/tags/chrome-os/" style="font-size: 20px;">chrome os</a> <a href="/tags/cloud/" style="font-size: 18.33px;">cloud</a> <a href="/tags/code/" style="font-size: 10px;">code</a> <a href="/tags/coding/" style="font-size: 16.67px;">coding</a> <a href="/tags/cr-48/" style="font-size: 13.33px;">cr-48</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/dev-tools/" style="font-size: 11.67px;">dev tools</a> <a href="/tags/google/" style="font-size: 10px;">google</a> <a href="/tags/html5/" style="font-size: 11.67px;">html5</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/teaching/" style="font-size: 10px;">teaching</a> <a href="/tags/verizon/" style="font-size: 10px;">verizon</a> <a href="/tags/wi-fi/" style="font-size: 10px;">wi-fi</a>
     </div>
   </div>
 
@@ -522,7 +565,7 @@ Since Firefox moved to a rapid release cycle, there has been concern by some (in
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -532,6 +575,10 @@ Since Firefox moved to a rapid release cycle, there has been concern by some (in
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/11/16/elevenfifty/">Eleven Fifty Academy</a>
+          </li>
         
           <li>
             <a href="/2015/09/16/Introduction To React - Officially Published!/">Introduction To React - Officially Published!</a>
@@ -547,10 +594,6 @@ Since Firefox moved to a rapid release cycle, there has been concern by some (in
         
           <li>
             <a href="/2015/02/25/dev.Objective()/">dev.Objective()</a>
-          </li>
-        
-          <li>
-            <a href="/2014/11/04/Firefox Developer Edition/">Firefox Developer Edition</a>
           </li>
         
       </ul>
