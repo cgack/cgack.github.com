@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Liberated Pixel Cup | Out Of Scope</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="July marked the beginning of the coding portion of the Liberated Pixel Cup which is an amazing two-part competition that involves amazing artists creating open game assets during part one (June) which">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Liberated Pixel Cup">
+<meta property="og:url" content="http://cgack.github.io/2012/08/01/2012-08-01-liberated-pixel-cup/index.html">
+<meta property="og:site_name" content="Out Of Scope">
+<meta property="og:description" content="July marked the beginning of the coding portion of the Liberated Pixel Cup which is an amazing two-part competition that involves amazing artists creating open game assets during part one (June) which">
+<meta property="og:updated_time" content="2015-11-16T19:25:24.953Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Liberated Pixel Cup">
+<meta name="twitter:description" content="July marked the beginning of the coding portion of the Liberated Pixel Cup which is an amazing two-part competition that involves amazing artists creating open game assets during part one (June) which">
+  
+    <link rel="alternative" href="/atom.xml" title="Out Of Scope" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Out Of Scope</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://cgack.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2012-08-01-liberated-pixel-cup" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/08/01/2012-08-01-liberated-pixel-cup/" class="article-date">
+  <time datetime="2012-08-01T04:00:00.000Z" itemprop="datePublished">2012-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Liberated Pixel Cup
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+July marked the beginning of the coding portion of the <a href="http://lpc.opengameart.org/" target="_blank" rel="external">Liberated Pixel Cup</a> which is an amazing two-part competition that involves amazing artists creating open game assets during part one (June) which developers then take to create a game based on those assets (July). I first heard about the Liberated Pixel Cup a few weeks into the second part of the competition. After a day or two of contemplating if I could get a game off the ground in time, decided to make an HTML5 game. Other than my orientation demo <a href="http://cgack.com/catch" target="_blank" rel="external">Catch</a> and the node.js interpretation of the card game <a href="http://wiz.jit.su/" target="_blank" rel="external">Wizard</a>, I had not made (or at least published) what I would consider a graphics based, animated, HTML5 game.  I decided to take this opportunity to dive in head first.<br>Over the last few years, I have seen quite a few HTML5 game engines come around and have taken note of many, experimented with some. The big name in the HTML5 engine space right now seems to be <a href="http://impactjs.com/" target="_blank" rel="external">ImpactJS</a> which I have yet to use, but of the ones with which I have experimented,<a href="http://cocos2d-x.org/" target="_blank" rel="external">cocos2dx-html</a> and <a href="http://melonjs.org/" target="_blank" rel="external">melonJS</a>, I chose melonJS. I decided that to get an RPG style game with the assests provided in the competition playable in the limited development time that I had, melonJS fit that need perfectly. So now I can kill two birds with one stone, get an HTML5 game built and get more familiar with one of the HTML5 engines I have been eyeing for some time.<br>So I spent my evenings and weekends for the last couple weeks doing quite a bit of hacking. First I had to familiarize myself with making some tilemaps for the different world areas within the game that I wanted to create, figure out how that tied in with the melonJS framework that I was trying to learn, and create a simple story in the game which could be completed before interest is lost. Creating the tilemaps was easy, and the way in which melonJS incorporates them into the game is slick and effective. A couple things which weren’t clear from the melonJS documentation were 1) dynamically adding projectiles or arbitrary objects (such as the magic in my game) to the screen, and 2) how to get the level transitions to behave how I wanted.  The first was pretty simple in the end, all I needed to do was check if my player had the magic, check direction, create &amp; align, add it and make sure it displays on the scene:<br>
+<pre>
+<code>
+if (me.game.STATE.weaponState === "magic_torrentacle") {
+    if (this.direction === "west") {
+        magic = new MagicEntity(this.pos.x - 100, this.pos.y + 30 , { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128});
+        magic.flipX(true);
+        me.game.add(magic, this.z);
+        me.game.sort();
+    } else if (this.direction === "east") {
+        magic = new MagicEntity(this.pos.x + 42, this.pos.y + 30, { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128 });
+        me.game.add(magic, this.z);
+        me.game.sort();
+    } else if (this.direction === "south") {
+        magic = new MagicEntity(this.pos.x - 24 , this.pos.y + 100, { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128 });
+        me.game.add(magic, this.z);
+        me.game.sort();
+    } else if (this.direction === "north" ) {
+        magic = new MagicEntity(this.pos.x - 24, this.pos.y - 30, { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128 });
+        me.game.add(magic, this.z);
+        me.game.sort();
+    }
+}
+</code>
+</pre>
+The other major hurdle I faced was the scenes when jumping from one map to another would sometimes immediately jump to a completely different map. This seemed like a bug and was so inconsistent I nearly scrapped the whole project, but as it turns out, a few of my enemies were walking their boundaries to the point where the level transitions began, triggering a random map change as if it were the main player. So that was a quick fix (once I figured it out). I do hope to add some more fun to it as time goes on, and welcome any contributors to expanding it to whatever it becomes. So go ahead and <a href="https://github.com/cgack/libpx" target="_blank" rel="external">Fork it</a>.<br>I cannot thank the other contributors to the competition enough, they are a cheery bunch on IRC who have donated time and talent to a really cool open game competition.<br>So now you know a bit of the backstory that led up to <a href="http://cgack.com/libpx" target="_blank" rel="external">Pixel Quest</a>, my HTML5 entry in the 2012 Liberated Pixel Cup.<br></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2012/08/01/2012-08-01-liberated-pixel-cup/" data-id="cih2cjlq9000rr8lghguzw6ph" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/10/03/2012-10-03-typescript/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          TypeScript
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/07/11/2012-07-11-wizard/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Wizard</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/3G/">3G</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Book/">Book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/">IDE</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactJS/">ReactJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aviary/">aviary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chrome-os/">chrome os</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/">cloud</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cr-48/">cr-48</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dev-tools/">dev tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/verizon/">verizon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wi-fi/">wi-fi</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/3G/" style="font-size: 10px;">3G</a> <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/IDE/" style="font-size: 15px;">IDE</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactJS/" style="font-size: 10px;">ReactJS</a> <a href="/tags/aviary/" style="font-size: 10px;">aviary</a> <a href="/tags/chrome-os/" style="font-size: 20px;">chrome os</a> <a href="/tags/cloud/" style="font-size: 18.33px;">cloud</a> <a href="/tags/coding/" style="font-size: 16.67px;">coding</a> <a href="/tags/cr-48/" style="font-size: 13.33px;">cr-48</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/dev-tools/" style="font-size: 11.67px;">dev tools</a> <a href="/tags/google/" style="font-size: 10px;">google</a> <a href="/tags/html5/" style="font-size: 11.67px;">html5</a> <a href="/tags/verizon/" style="font-size: 10px;">verizon</a> <a href="/tags/wi-fi/" style="font-size: 10px;">wi-fi</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/09/16/Introduction To React - Officially Published!/">Introduction To React - Officially Published!</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/15/Trying to Run React Native Android on Windows/">Trying to Run React Native Android on Windows</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/09/Introduction to React/">Introduction to React</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/25/dev.Objective()/">dev.Objective()</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/04/Firefox Developer Edition/">Firefox Developer Edition</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cory Gackenheimer<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Out Of Scope</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Out Of Scope">
+<meta property="og:url" content="http://cgack.github.io/page/3/index.html">
+<meta property="og:site_name" content="Out Of Scope">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Out Of Scope">
+<meta name="twitter:description">
+  
+    <link rel="alternative" href="/atom.xml" title="Out Of Scope" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Out Of Scope</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://cgack.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2012-08-01-liberated-pixel-cup" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/08/01/2012-08-01-liberated-pixel-cup/" class="article-date">
+  <time datetime="2012-08-01T04:00:00.000Z" itemprop="datePublished">2012-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/08/01/2012-08-01-liberated-pixel-cup/">Liberated Pixel Cup</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+July marked the beginning of the coding portion of the <a href="http://lpc.opengameart.org/" target="_blank" rel="external">Liberated Pixel Cup</a> which is an amazing two-part competition that involves amazing artists creating open game assets during part one (June) which developers then take to create a game based on those assets (July). I first heard about the Liberated Pixel Cup a few weeks into the second part of the competition. After a day or two of contemplating if I could get a game off the ground in time, decided to make an HTML5 game. Other than my orientation demo <a href="http://cgack.com/catch" target="_blank" rel="external">Catch</a> and the node.js interpretation of the card game <a href="http://wiz.jit.su/" target="_blank" rel="external">Wizard</a>, I had not made (or at least published) what I would consider a graphics based, animated, HTML5 game.  I decided to take this opportunity to dive in head first.<br>Over the last few years, I have seen quite a few HTML5 game engines come around and have taken note of many, experimented with some. The big name in the HTML5 engine space right now seems to be <a href="http://impactjs.com/" target="_blank" rel="external">ImpactJS</a> which I have yet to use, but of the ones with which I have experimented,<a href="http://cocos2d-x.org/" target="_blank" rel="external">cocos2dx-html</a> and <a href="http://melonjs.org/" target="_blank" rel="external">melonJS</a>, I chose melonJS. I decided that to get an RPG style game with the assests provided in the competition playable in the limited development time that I had, melonJS fit that need perfectly. So now I can kill two birds with one stone, get an HTML5 game built and get more familiar with one of the HTML5 engines I have been eyeing for some time.<br>So I spent my evenings and weekends for the last couple weeks doing quite a bit of hacking. First I had to familiarize myself with making some tilemaps for the different world areas within the game that I wanted to create, figure out how that tied in with the melonJS framework that I was trying to learn, and create a simple story in the game which could be completed before interest is lost. Creating the tilemaps was easy, and the way in which melonJS incorporates them into the game is slick and effective. A couple things which weren’t clear from the melonJS documentation were 1) dynamically adding projectiles or arbitrary objects (such as the magic in my game) to the screen, and 2) how to get the level transitions to behave how I wanted.  The first was pretty simple in the end, all I needed to do was check if my player had the magic, check direction, create &amp; align, add it and make sure it displays on the scene:<br>
+<pre>
+<code>
+if (me.game.STATE.weaponState === "magic_torrentacle") {
+    if (this.direction === "west") {
+        magic = new MagicEntity(this.pos.x - 100, this.pos.y + 30 , { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128});
+        magic.flipX(true);
+        me.game.add(magic, this.z);
+        me.game.sort();
+    } else if (this.direction === "east") {
+        magic = new MagicEntity(this.pos.x + 42, this.pos.y + 30, { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128 });
+        me.game.add(magic, this.z);
+        me.game.sort();
+    } else if (this.direction === "south") {
+        magic = new MagicEntity(this.pos.x - 24 , this.pos.y + 100, { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128 });
+        me.game.add(magic, this.z);
+        me.game.sort();
+    } else if (this.direction === "north" ) {
+        magic = new MagicEntity(this.pos.x - 24, this.pos.y - 30, { image: "magic_torrentacle", spriteheight: 128, spritewidth: 128 });
+        me.game.add(magic, this.z);
+        me.game.sort();
+    }
+}
+</code>
+</pre>
+The other major hurdle I faced was the scenes when jumping from one map to another would sometimes immediately jump to a completely different map. This seemed like a bug and was so inconsistent I nearly scrapped the whole project, but as it turns out, a few of my enemies were walking their boundaries to the point where the level transitions began, triggering a random map change as if it were the main player. So that was a quick fix (once I figured it out). I do hope to add some more fun to it as time goes on, and welcome any contributors to expanding it to whatever it becomes. So go ahead and <a href="https://github.com/cgack/libpx" target="_blank" rel="external">Fork it</a>.<br>I cannot thank the other contributors to the competition enough, they are a cheery bunch on IRC who have donated time and talent to a really cool open game competition.<br>So now you know a bit of the backstory that led up to <a href="http://cgack.com/libpx" target="_blank" rel="external">Pixel Quest</a>, my HTML5 entry in the 2012 Liberated Pixel Cup.<br></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2012/08/01/2012-08-01-liberated-pixel-cup/" data-id="cih2cjlq9000rr8lghguzw6ph" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2012-07-11-wizard" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/07/11/2012-07-11-wizard/" class="article-date">
+  <time datetime="2012-07-11T04:00:00.000Z" itemprop="datePublished">2012-07-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/07/11/2012-07-11-wizard/">Wizard</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+Months ago I set out to create a nodejs based app for one of our office favorite games - Wizard (the ultimate game of trump). I started the project by myself, but after I got it to the point where I thought it could really become something I enlisted the help of a friend to help contribute to really speed up the development. Things went well and we reached the point&nbsp; somewhere around SXSW 2012 where it became playable and testable, though admittedly it is still in a fairly unstable state. We had privately hosted it on Bitbucket and collaborated through there, but I decided today that we are going to unleash it as a <a href="https://github.com/cgack/wizard" target="_blank" rel="external">public repo on Github</a>.&nbsp; So there it is. You can create your own instance of it and test and contribute (pull requests, issues, etc) as much as you like.&nbsp; If you just want to see it in action, you can view the latest stable build that I have hosted with nodejitsu currently at http://wiz.jit.su.</div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2012/07/11/2012-07-11-wizard/" data-id="cih2cjlqd000sr8lg04bq7yrf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2012-05-06-remote-debugging-tools" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/05/06/2012-05-06-remote-debugging-tools/" class="article-date">
+  <time datetime="2012-05-06T04:00:00.000Z" itemprop="datePublished">2012-05-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/05/06/2012-05-06-remote-debugging-tools/">Remote Debugging Tools</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+<p>Recently I have been working on some mobile content for a couple of my personal projects. And since working on the front-end of these projects involves spending some quality time with developer tools, I have also been spending some quality time utilizing a few different remote debugging tools. In the last few years the remote debugging tool category of software has grown rapidly which makes deciding on the best tool, somewhat similar to finding your favorite dev tools setup in your browser of choice. Just as some folks prefer debugging their front-end with Firebug, Opera Dragonfly, or Chrome Developer Tools (WebKit Inspector), there is now a similarly robust selection for remote debugging for mobile devices.</p> <p>Built by Remy Sharp, <a href="http://jsconsole.com/" target="_blank" rel="external">JsConsole.com</a> is perhaps the simplest and most accessible tool for remote debugging. Simply include the remote.js file in your html,</p> <pre><code>&lt;script src="http://jsconsole.com/remote.js?IDENTIFIER"&gt;&lt;/script&gt;<br></code></pre> <p> navigate to jsconsole.com, &#8220;:listen&#8221;, and you now have access to your remote device.  Works splendedly, but doesn&#8217;t have all the bells and wistles that come along with the advancing browser dev tools. I use this tool a ton for remote debugging work, especially since it works across browsers on my mobile device. Another tool that I have utilized and is quite popular due to its association with PhoneGap, is <a href="http://people.apache.org/~pmuellr/weinre/docs/latest/" target="_blank" rel="external">Weinre</a> or WebKit Inspector Remote. With this you simply run a server locally that will allow you to debug remotely utilizing a set of the WebKit Inspector toolset (Google Chrome, Safari) - provided you supply a target.js script in your source. Again this is not a full set of the tools which are normally available to a Chrome Dev Tools, Firebug, Dragonfly user, but is quite adequate and useful on multiple target browsers. I rarely utilize Weinre, but many developers find it a critical part of their workflow.</p> <p>Opera Dragonfly has a great remote debugging experience baked into their tools. One simply tells Opera Desktop to initiate a remote listening session, then Opera Mobile &#8220;opera:debug&#8221;, and you can inspect your remote page in Dragonfly. Honestly, I have limited experience here, because I rarely utilize Dragonfly, even though the tools are quite robust.</p> <p>So what is my go to remote debugging tool today? Chrome. I am most comfortable with the Chrome Dev Tools in all my other debugging for a number of reasons including the continuous insertion of handy new features. So once I upgraded my phone to Android 4 (Ice Cream Sandwich) - which is required to utilize Chrome For Android - I have been happily utilizing the full suite of Developer Tools in Chrome to inspect my mobile app on my Android device. Again, the best solution for me because I can utilize the same toolset for desktop or mobile debugging.  Its pretty simple to setup, just get your Android device set up for usb debugging in both the Android settings and Chrome settings, then (via the Android SDK) setup a debug bridge that will forward your console to a port of your choosing allowing you to open localhost:9222 which shows all your tabs open on your phone, ready for inspection. Start listening on that port using a script like this in your terminal:</p> <pre><code>adb forward tcp:9222 localabstract:chrome_devtools_remote<br></code></pre> <p>Rather than go through my terminal command history to find the command and possibly change the port, I aliased the command in my .bashrc file so anytime I hook up my phone I can type <code>cremote 9222</code> in the terminal and inspect away</p> <pre><code>function cremote() {<br>    adb forward tcp:$@ localabstract:chrome_devtools_remote<br>}<br></code></pre> <p>From there its on to your browser to find and inspect away to your hearts content. This remote debugging space is growing quickly, the upcoming version of many toolset have this capability built in directly, things like jsBin (v3), jsfiddle, Firefox dev tools, Adobe Shadow, Trigger.io&#8217;s remote inspector, and many others I&#8217;m sure are all available, or will be available to utilize as a remote debugger. So the developer wins in the end with a host of choices to choose from so they can find that which fits their needs and workflow.</p></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2012/05/06/2012-05-06-remote-debugging-tools/" data-id="cih2cjlqk000tr8lg6kg5ci75" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2012-01-27-deviceorientation-events" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/01/27/2012-01-27-deviceorientation-events/" class="article-date">
+  <time datetime="2012-01-27T05:00:00.000Z" itemprop="datePublished">2012-01-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/01/27/2012-01-27-deviceorientation-events/">DeviceOrientation Events</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+<p>The Mozilla Dev Derby is a pretty cool thing.  Developers from around the world can openly add any demo to the site, and if their demo lines up with the prescribed derby for the month, they are automatically entered to win a prize (t-shirt, cool bag, android device).  I decided I would enter again for the January 2012 derby based on Orientation.  I made two demos.</p> <h3>catch</h3> <p>The first one called &#8220;Catch&#8221; which you are attempting to catch a randomly generated ball in the shortest amount of time possible. I have personally found it incredibly addicting to get the perfect game, or at least my best attempt at it and I even wrote the source code.  What I learned in developing this app was a couple of things.  One, there isn&#8217;t a ton of documentation on the web about the DeviceOrientationEvent.  Two, its pretty straightforward to detect the orientation and utilize it to move an object.  Here is the basic of my app:</p> <pre><code> /*orientation stuffs*/<br>var initOrientation = function() {<br>    var count = 0, gam = 0, bet = 0;<br>    if (window.DeviceOrientationEvent) {<br>        window.addEventListener("deviceorientation", function(e) {<br>            //gamma = left to right<br>            //beta = front back<br>            //alpha = compass dir<br>            count = count + 1;<br>            gam += e.gamma;<br>            bet += e.beta;<br><br>            if (count === 0 || count % 10 === 0) {<br>                orientationYo(gam, bet);<br>                gam = 0;<br>                bet = 0;<br>            }<br>        }, false);<br>    }<br>};<br><br>//handle orientation<br>var orientationYo = function(ltr, ftb) {<br>    coor.x = coor.x + ltr;<br>    coor.y = coor.y + ftb;<br>    if (!gameState.victory &amp;&amp; gameState.playing) {<br>        tgt.move(coor);   <br>    }<br>};<br></code></pre> <p>so that handles the detection of the orientation event, next I simply added the move call to my target (tgt) which looks like this:</p> <pre><code>var tgt = {<br>    isDrawing: false,<br>    collided: false,<br>    start: function(coordinates) {<br>        this.drawIt(coordinates);<br>        this.isDrawing = true;<br>    },<br>    drawIt: function (coordinates) {<br>        ctx.clearRect(0, 0, canvasWidth, canvasHeight);<br>        ctx.fillStyle = b2_color;<br>        ctx.beginPath();<br>        ctx.arc(coordinates.x, coordinates.y, 25, 0, Math.PI * 2, true);<br>        ctx.fill();<br>    },<br>    move: function(coordinates) {<br>        if (this.isDrawing) {<br>          this.checkBounds(coordinates);<br>          this.drawIt(coordinates);<br>        }<br>    },<br>    finish: function(coordinates) {<br>        this.isDrawing = false;<br>        ctx.lineTo(coordinates.x, coordinates.y);<br>        ctx.stroke();<br>        ctx.closePath();                <br>    },<br>    checkBounds: function(coordinates) {<br>         if (coordinates.y &gt; bound.y2) {<br>            coordinates.y = bound.y2;<br>          } else if (coordinates.y &lt; bound.y1) {<br>            coordinates.y = bound.y1;<br>          } else if (coordinates.x &gt; bound.x2) {<br>            coordinates.x = bound.x2;<br>          } else if (coordinates.x &lt; bound.x1) {<br>            coordinates.x = bound.x1;<br>          }<br>    }<br>};<br></code></pre> <p>collision detection is handled by my randomly placed bouncing ball, which detects when the target ball moves into its path:</p> <pre><code>checkObjectCollisions: function() {<br>    var imgData = ctx.getImageData(this.position.x + this.velocity.x1, this.position.y + this.velocity.x2, r, r),<br>        pix = imgData.data;<br>    for (i = 0, n = pix.length; i &lt; n; i += 4) {<br>        if (pix[i] !== 0) {<br>            this.collided = true;<br>            if (Math.abs(this.velocity.x1) &gt; Math.abs(this.velocity.x2)){<br>                this.velocity.x1 = -this.velocity.x1 * drag;<br>            } else {<br>                this.velocity.x2 = -this.velocity.x2 * drag;<br>            }<br>            break;<br>        } else {<br>            this.collided = false;<br>        }<br>    }<br>}<br></code></pre> <p>I am pretty happy with the game, its clean and works nicely.  You can check it out <a href="https://developer.mozilla.org/en-US/demos/detail/catch" target="_blank" rel="external">here</a></p> <h3>compass</h3> <p>The other is a simple web compass where I utilize the DeviceOrientationEvent to get the <a href="https://developer.mozilla.org/en-US/demos/detail/simple-compass" target="_blank" rel="external">cardinal direction your phone or device is facing</a>.  There are two cool (in my opinion) things that happened here.  One is that to me it seems the device orientation event as defined states that the DeviceOrientationEvent.alpha ranges from 0 to 360 which to me is a 361 degree circle.  The second is that I was able to utilize the offline caching capabilities of the modern web to make the compass available to a device event when not connected to the internet.  This is done in minimal lines of code.  The HTML and JavaScript are as follows:</p> <pre><code>&lt;!-- This Source Code Form is subject to the terms of the Mozilla Public<br>License, v. 2.0. If a copy of the MPL was not distributed with this file,<br>You can obtain one at http://mozilla.org/MPL/2.0/.  --&gt;<br><br>&lt;!DOCTYPE html&gt;<br>&lt;html manifest="compass.appcache"&gt;<br>&lt;head&gt;<br>&lt;meta charset=utf-8 /&gt;<br>&lt;title&gt;Cardinal Direction Compass&lt;/title&gt;<br>&lt;style&gt;<br>  .pointer {<br>    height: 0;<br>    width: 0;<br>    border-left: 3em solid transparent;<br>    border-right: 3em solid transparent;<br>    border-bottom: 12em solid black;<br>    margin: -10px 0 0 -40px;<br>    top: 40%;<br>    left: 50%;<br>    position: absolute;<br>  }<br>  .n {<br>    top: 20%;<br>    left:50%;<br>    position:absolute;<br>    font:8em Helvetica;<br>    margin: 0 0 0 -40px;<br>  }<br>  &lt;/style&gt;<br>  &lt;script src="js/jquery.js"&gt;&lt;/script&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>  &lt;div class="n"&gt;N&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;S&lt;/div&gt;<br>  &lt;div class="pointer"&gt;&lt;/div&gt;<br>&lt;script&gt;<br>        $(document).ready(function() {<br><br>          var rotate = function (deg) {  <br>              $(".n").css({ "-moz-transform": "rotate(0deg)"});<br>              $(".n").css({ "-moz-transform": "rotate(" + deg + "deg)"});<br><br>              $(".n").css({ "-o-transform": "rotate(0deg)"});<br>              $(".n").css({ "-o-transform": "rotate(" + deg + "deg)"});<br><br>              $(".n").css({ "-ms-transform": "rotate(0deg)"});<br>              $(".n").css({ "-ms-transform": "rotate(" + deg + "deg)"});<br><br>              $(".n").css({ "-webkit-transform": "rotate(0deg)"});<br>              $(".n").css({ "-webkit-transform": "rotate(" + deg + "deg)"});<br><br>              $(".n").css({ "transform": "rotate(0deg)"});<br>              $(".n").css({ "transform": "rotate(" + deg + "deg)"});<br>          };<br>          if (window.DeviceOrientationEvent) {<br>            window.addEventListener("deviceorientation", function (e) {<br>              rotate(360 - e.alpha);<br>            }, false);<br>          }<br><br>        });<br>        &lt;/script&gt;<br>  &lt;/body&gt;<br>&lt;/html&gt;<br></code></pre> <p>The final point I&#8217;d like to make is that due to what I thought was minimal documentation, I participated in a Mozilla Doc Sprint last weekend to update the Documentation surrounding the DeviceOrientationEvent. Doing my part in the web development community was both rewarding and a learning experience. I encourage anyone to try it out as well.</p></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2012/01/27/2012-01-27-deviceorientation-events/" data-id="cih2cjlqn000ur8lg2cgv465q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2012-01-07-widget" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/01/07/2012-01-07-widget/" class="article-date">
+  <time datetime="2012-01-07T05:00:00.000Z" itemprop="datePublished">2012-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/01/07/2012-01-07-widget/">$.widget</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+<p>I have lately been looking to become more involed with open source projects and for starters I have been looking at jQuery UI and jQuery Mobile.  Both are amazing projects and share many of the same characteristics in their code.  This is because in both cases, the majority of the functionality is inherited from the jQuery UI widget factory.  If I&#8217;m going to become involved in this project I should understand how this works, so the following is my breakdown of the code as I understand it.</p> <p>The widget factory looks like the following:</p> <pre><code>$.widget = function( name, base, prototype ) {<br>    var namespace = name.split( "." )[ 0 ],<br>        fullName;<br>    name = name.split( "." )[ 1 ];<br>    fullName = namespace + "-" + name;<br><br>    if ( !prototype ) {<br>        prototype = base;<br>        base = $.Widget;<br>    }<br><br>    // create selector for plugin<br>    $.expr[ ":" ][ fullName ] = function( elem ) {<br>        return !!$.data( elem, name );<br>    };<br><br>    /* OTHER STUFF */<br>}<br></code></pre> <p>I&#8217;ll get to the stuff in a second, but lets see what we&#8217;ve already learned here. First I see that widget can take up to three arguments (name, base, prototype), and example might be something like</p> <pre><code>$.widget("cg.awesomewidget, "ui.button", { /*...*/})<br></code></pre> <p>here name or &#8220;cg.awesomewidget&#8221; becomes the namespace and fullname so in my example I have namespaced it to &#8220;cg&#8221; with a fullname of &#8220;cg-awesomewidget&#8221;. I also see that we check if prototype is provided, if it is not we assume that we are not inheriting from a named widget, set the base parameter to prototype and set the base to the main $.Widget base object. Okay that sounds more messy than it is. Lets try to rephrase.  The base is an optional parameter telling the widget factory we want to inherit from a known widget.  In my example above its &#8220;ui.button&#8221;.  If that parameter is not provided it simply pulls from the base $.Widget. So we know that <strong>any</strong> widget will carry the prototype base of $.Widget for starters. Now, what about this prototype?  This is the base object literal that the widget makes its prototype.  Sweet right?  The next fun fact is that our widget gets its very own shiny new custom selector $(&#8220;:cg-awesomewidget&#8221;).</p> <p>Next the object is constructed via the jQuery.extend() method as follows:</p> <pre><code>$[ namespace ] = $[ namespace ] || {};<br>// create the constructor using $.extend() so we can carry over any<br>// static properties stored on the existing constructor (if there is one)<br>$[ namespace ][ name ] = $.extend( function( options, element ) {<br>    // allow instantiation without "new" keyword<br>    if ( !this._createWidget ) {<br>        return new $[ namespace ][ name ]( options, element );<br>    }<br><br>    // allow instantiation without initializing for simple inheritance<br>    // must use "new" keyword (the code above always passes args)<br>    if ( arguments.length ) {<br>        this._createWidget( options, element );<br>    }<br>}, $[ namespace ][ name ], { version: prototype.version } );<br></code></pre> <p>here the $[ namespace ][ name ] object is merged together with the prototype.version into the existing constructor as described in the comments.  Then the options are passed along to the base.  Again this is done via jQuery extend.</p> <pre><code>var basePrototype = new base();<br>// we need to make the options hash a property directly on the new instance<br>// otherwise we'll modify the options hash on the prototype that we're<br>// inheriting from<br>basePrototype.options = $.widget.extend( {}, basePrototype.options );<br></code></pre> <p>This is followed up with a call to $.each() that checks all the functions of the base and applies those to our new widget.</p> <pre><code>$.each( prototype, function( prop, value ) {<br>    if ( $.isFunction( value ) ) {<br>        prototype[ prop ] = (function() {<br>            var _super = function() {<br>                return base.prototype[ prop ].apply( this, arguments );<br>            };<br>            var _superApply = function( args ) {<br>                return base.prototype[ prop ].apply( this, args );<br>            };<br>            return function() {<br>                var __super = this._super,<br>                    __superApply = this._superApply,<br>                    returnValue;<br><br>                this._super = _super;<br>                this._superApply = _superApply;<br><br>                returnValue = value.apply( this, arguments );<br><br>                this._super = __super;<br>                this._superApply = __superApply;<br><br>                return returnValue;<br>            };<br>        }());<br>    }<br>});<br></code></pre> <p>After all of this its time to put it all together.  The widget prototype is now set via extend where we extend our basePrototype (widget) merging in the new widget and prototype. The last thing needed is a call to $.widget.bridge() which creates an instance of the object.</p> <pre><code>$[ namespace ][ name ].prototype = $.widget.extend( basePrototype, {<br>    namespace: namespace,<br>    widgetName: name,<br>    widgetEventPrefix: name,<br>    widgetBaseClass: fullName<br>}, prototype );<br><br>$.widget.bridge( name, $[ namespace ][ name ] );<br></code></pre> <p>That concludes our walkthrough of the jQuery UI widget factory.  Fairly amazing when you look at how simple it is to create a widget based on this.  A simple example is a look at jquery.ui.tooltip.js</p></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2012/01/07/2012-01-07-widget/" data-id="cih2cjlqq000vr8lgz1mclsc5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-12-28-collision-detection-on-canvas" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/12/28/2011-12-28-collision-detection-on-canvas/" class="article-date">
+  <time datetime="2011-12-28T05:00:00.000Z" itemprop="datePublished">2011-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/12/28/2011-12-28-collision-detection-on-canvas/">Collision Detection on Canvas</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+<p>I was toying around with a bouncing ball on an HTML canvas the other day when I wanted to find an easy way to detect collisions. One thing that is easy is validating against the bounds of the canvas. This is done with a simple check on the bounds of the canvas as follows:</p> <pre><code>//this is a Ball object<br>if (this.position.y &gt; bound.y2) {<br>    this.velocity.x2 = -this.velocity.x2 * drag;<br>    this.position.y = bound.y2;<br>} else if (this.position.y &lt; bound.y1) {<br>    this.velocity.x2 = -this.velocity.x2 * drag;<br>    this.position.y = bound.y1;<br>}<br>if (this.position.x &lt; bound.x1) {<br>    this.velocity.x1 = -this.velocity.x1 * drag;<br>    this.position.x = bound.x1;<br>} else {<br>    if (this.position.x &gt; bound.x2) {<br>        this.velocity.x1 = -this.velocity.x1 * drag;<br>        this.position.x = bound.x2;<br>    }<br>}<br></code></pre> <p>You&#8217;ll see that if we get the Ball beyond the bounds of either axis we reverse the velocity vector (and for my example) I augment that vector with some drag.  Then I start the Ball off (headed the other direction now) from the start of the boundary.  This is straight forward and not too difficult to come up with.  The same can be done for other shapes on the canvas which we do not wish for the ball to pass through.  These again can be simple if we know the layout and the position of the target walls (think floating boxes).  Where this gets to a point where the shapes are not at right angles or the boundaries have become more arbitrary, I no longer want to calculate each possible collision point.  I also do not wish to wrap the object into a larger boundary box to utilize for detection.  So a more elegant solution can be found.  If we, just before moving the ball, simulate the move and have another means for detection we can then change the trajectory of the object and send it sailing away.  Here&#8217;s what we need.  we need a ball sized snapshot of the canvas where we plan to put the ball on the next move.  We then iterate through those pixels on the image and find ones that arent the color of our background (in my case non-white).  To do this without also seeing the ball as a collided upon object, I&#8217;ll clear the canvas of the ball first.  Here is the code:</p> <pre><code>//clear canvas, add shape<br>context.clearRect(0, 0, canvasWidth, canvasHeight);<br><br>context.fillStyle = "rgb(150,150,150)"; //not white<br>context.beginPath();<br>context.moveTo(200, 100);<br>context.lineTo(300, 125);<br>context.lineTo(250, 175);<br>context.lineTo(200, 200);<br>context.lineTo(200, 100);<br>context.fill();<br>context.closePath();<br><br>//now we check our next move for collision<br>var imgData = context.getImageData(this.position.x + this.velocity.x1, this.position.y + this.velocity.x2, r, r);<br>var pix = imgData.data;<br>for (var i = 0; n = pix.length, i &lt; n; i += 4) {<br>    //check if we're not on a white pixel<br>    if (pix[i] != 0) { <br>        this.collided = true; <br>        //bounce away<br>        if (Math.abs(this.velocity.x1) &gt; Math.abs(this.velocity.x2)){<br>            this.velocity.x1 = -this.velocity.x1 * drag;<br>        } else {<br>            this.velocity.x2 = -this.velocity.x2 * drag;<br>        }<br>        break;<br>    } else {<br>        this.collided = false;<br>    }<br><br>}<br></code></pre> <p>Thats it!  Now we can throw our ball at a target.  The demo I have is located at <a href="http://jsfiddle.net/cgack/mwsBY/" target="_blank" rel="external">this jsFiddle</a>.</p></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2011/12/28/2011-12-28-collision-detection-on-canvas/" data-id="cih2cjlqt000wr8lgx0syrgn6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-12-23-book-review-tangled-web" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/12/23/2011-12-23-book-review-tangled-web/" class="article-date">
+  <time datetime="2011-12-23T05:00:00.000Z" itemprop="datePublished">2011-12-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/12/23/2011-12-23-book-review-tangled-web/">Book Review: The Tangled Web</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+<p>Browsers are not secure.  They won’t ever be invincible to malicious attacks.  Browser A does not serve the same set of security mechanisms as Browser B.  These points are highlighted in Michal Zalewski’s book “The Tangled Web: A Guide to Securing Modern Web Applications”, but Zalewski, an expert in browser security and author of <a href="http://code.google.com/p/browsersec/" target="_blank" rel="external">Google’s Browser Security Handbook</a>, discusses in detail common and known vulnerabilities, providing hints and tips to keep web applications as secure as possible along the way.</p> <p>The book starts with a relatively exhaustive dissection of the “Anatomy of the Web”, highlighting the history of the web, from HTTP up to Plug-ins such as Flash and Silverlight all while noting some of the varying browser implementations of many common web functionalities.  For example when discussing the Content-Disposition  Header, Zalewski notes that these headers “are truncated at NUL by Internet Explorer, Firefox, and Chrome but not by Opera or Safari”,</p> <p>In parts Two and Three of the book, the meat of browser security features are discussed in depth.  Highlights include a detailed look at the Same Origin Policy for all aspects of the modern web, including Scripts,  XHR, Cookies, and Plugins.  Another intriguing look into browser inner workings was the sections on special psuedo urls such as about:, javascript:, and data: and how these can lead to interesting handlings of the origination of the requests across browser implementations.  For example about:blank can be navigated to from an Existing non-same-origin page and have its origin inherited from the caller in Firefox, Webkit, and Opera while gaining a unique origin in Internet Explorer.</p> <p>Perhaps one the most valuable parts of “The Tangled Web” is how Zalewski adds a handy “Security Engineering Cheat Sheet” to the end of each chapter.   Having these quick tips at ones fingertips is a remarkable asset and great addition to the book.  I could continue to outline the great parts of this book, and tout the security expertise that jumps from the pages, but the most important parts in the book are what each reader takes away.  Whether its a small attack vector that a reader picks up on to close a vulnerability in their own web application, or an interesting fact about browser inconsistencies, each reader should gain something from this book.  For me, the take away is that as a developer there is no magic bullet and we will always uncover new security holes in our web applications, either from poor programming, or new features of a browser’s implementation.  And that our expectations should not be that we have a perfectly impenetrable web, or are capable of producing one.  Zalewski puts it like this, “As the complexity of our online interactions approaches that of real life, the odds of designing perfectly secure software are rapidly diminishing”</p></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2011/12/23/2011-12-23-book-review-tangled-web/" data-id="cih2cjlqw000xr8lg4huyrbln" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-12-19-canvas-history-local-storage-and-more" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/" class="article-date">
+  <time datetime="2011-12-19T05:00:00.000Z" itemprop="datePublished">2011-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/">Canvas, History, Local Storage and More</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+ A few months ago I entered the <a href="https://developer.mozilla.org/en-US/demos/devderby/2011/august/" target="_blank" rel="external">August Mozilla Dev Derby</a>, which focused on the History API. I have seen some of the amazing things that the new changes to this interface have been able to make from folks like <a href="https://www.facebook.com/note.php?note_id=438532093919" target="_blank" rel="external">Facebook</a> and <a href="https://github.com/blog/760-the-tree-slider" target="_blank" rel="external">GitHub</a> but I wanted to try something a little different. I had been hacking on a simple drawing canvas and decided that I could leverage the History API to create a more application like experience. Since winning the Derby, I’ve seen my code improved and extended in a <a href="https://developer.mozilla.org/en-US/demos/detail/paint-search" target="_blank" rel="external">later Dev Derby Entry</a>, and I turned it into a sample <a href="https://apps-preview.mozilla.org/en-US/apps/app/draw/?src=cb-dl-free" target="_blank" rel="external">application</a> for <a href="https://apps-preview.mozilla.org/en-US/apps/" target="_blank" rel="external">Mozilla’s new App experience</a>. Here’s a peek into the process of creating a drawing demo like the one I created.<br><h2>Basic Setup</h2>Firstly, we’re going to need to create a canvas.  This is pretty straightforward for those who have done this sort of thing before, but for a reminder that can look like the following<br><pre><code>    &lt;!DOCTYPE html&gt;<br>    &lt;html&gt;<br>    &lt;body&gt;<br>     &lt;div id="content"&gt;<br>        &lt;canvas id="canvas" height="500" width="500"&gt;&lt;/canvas&gt;<br>     &lt;/div&gt;<br>    &lt;/body&gt;<br>    &lt;/html&gt;<br></code></pre>Now that we have our canvas we can start to initialize it and get ready to roll with the fun features we’d like to demonstrate.<br><pre><code>var canvas = document.getElementById("canvas"),<br>    ctx = canvas.getContext("2d"),<br>    img, //more about this later<br>    blankCanvas = true; //this too<br></code></pre>We now need to set it up to allow for drawing.  This is done by adding a event listeners to the mouse events we’d like to watch.<br><pre><code>window.addEventListener("mousedown", setupDraw, false);<br>window.addEventListener("mousemove", setupDraw, false);<br>window.addEventListener("mouseup", setupDraw, false);<br></code></pre>You’ll notice the setupDraw function is called on all of these events.  This function will grab the coordinates of our pointer (less the offset of our lovely #content div and send those to our draw object.<br><pre><code>function setupDraw(event) {<br>    var cnt = document.getElementById("content"),<br>        coordinates = {<br>            x: event.pageX - cnt.offsetLeft,<br>            y: event.pageY - cnt.offsetTop<br>          };<br>    draw[event.type](coordinates);<br>};<br></code></pre>Now time for the drawing I’ll go ahead and let you peek at the source so you can follow along.<br><pre><code>var draw = {<br>    isDrawing: false,<br>    mousedown: function(coordinates) {<br>        ctx.beginPath();<br>        ctx.moveTo(coordinates.x, coordinates.y);<br>        this.isDrawing = true;<br>    },<br>    mousemove: function(coordinates) {<br>        if (this.isDrawing) {<br>            ctx.lineTo(coordinates.x, coordinates.y);<br>            ctx.stroke();<br>        }<br>    },<br>    mouseup: function(coordinates) {<br>        this.isDrawing = false;<br>        ctx.lineTo(coordinates.x, coordinates.y);<br>        ctx.stroke();<br>        ctx.closePath();<br>      }<br>};<br></code></pre>You’ll see this object directs to an event type specific function and handles the coordinates parameters which are passed into the object.  Following some basic canvas drawing steps for ctx.beginPath() -&gt; ctx.moveTo(x,y) -&gt; ctx.lineTo(x,y) -&gt; ctx.stroke() -&gt; ctx.closePath() we now have the ability to draw with our mouse.  The “isDrawing” property is there to let us know to continue our strokes on mousemove.  Now that we have an example that allows us to draw, we’ll move forward to make it more interesting by utilizing the History API and LocalStorage.<br><h2>About the History API</h2>One of the new features in HTML5 (an subject of the Dev Derby) is the additional features of the History API.   These are history.pushState(data,title [,url]) and history.replaceState(data, title [,url] ) which are utilized to directly push (or replace) data in the session history.  For the purposes of this demo we’ll be using pushState to add data, specifically the image data from the canvas, to the current URL.  Now this alone is not enough we will also need to know when the current state changes, which is made accessible to us via the window.onpopstate event.  This event fires when the browser gets a new history event.  We can inspect the event to see if it contains a state and then load the data (hopefully our image) into the canvas.  So to get things wired up correctly, its time to add a function to store the history.<br><pre><code>var storeHistory = function () {<br>    img = canvas.toDataURL("image/png");<br>    history.pushState({ imageData: img }, "", window.location.href);<br>};<br></code></pre>This grabs the data from the canvas in the form of a “data:image/png…” url.  Then we create a new history state by pushing an imageData attribute for later retrieval.  Now, before we add the calls to storeHistory to our drawing application, we need to do a bit of preventative maintenance.  If we store this data and navigate backward without a reinitialization of the canvas, we will just draw the stored imageData onto the existing image.  To us this will look like it isn’t working so we need to add an initialization function to reset our canvas.<br><pre><code>var initializeCvs = function () {<br>    ctx.lineCap = "round";<br>    ctx.save();<br>    ctx.fillStyle = '#ffffff';<br>    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);<br>    ctx.restore();<br>}<br></code></pre>Now we can go about the business of storing our history states.  The code that follows will store history in two places.  The first place it stores is if the canvas is blank it stores that before drawing anything.  The second is on the mouseup event after  the line is completed.  Now our draw object looks like this:<br><pre><code>var draw = {<br>    isDrawing: false,<br>    mousedown: function(coordinates) {<br>        if (blankCanvas) { storeHistory(); blankCanvas = false; }<br>        ctx.beginPath();<br>        ctx.moveTo(coordinates.x, coordinates.y);<br>        this.isDrawing = true;<br>    },<br>    mousemove: function(coordinates) {<br>        if (this.isDrawing) {<br>            ctx.lineTo(coordinates.x, coordinates.y);<br>            ctx.stroke();<br>        }<br>    },<br>    mouseup: function(coordinates) {<br>        this.isDrawing = false;<br>        ctx.lineTo(coordinates.x, coordinates.y);<br>        ctx.stroke();<br>        ctx.closePath();<br>        storeHistory();<br>    }<br>};<br></code></pre>Awesome, now we have started storing history on the page with each completed line.  Now we need to be able to see the results of this work when the history state changes.  As I mentioned earlier this is done via the window.onpopstate event.  We will examine the imageData of the state (if it exists) and place that image on the canvas as follows:<br><pre><code> window.onpopstate = function (event) {<br>        if (event.state !== null) {<br>            img = new Image();<br>            img.onload =function () {<br>                ctx.drawImage(img, 0, 0);<br>            };<br>            img.src = event.state.imageData;<br>        }<br>    };<br></code></pre>Splendid, we now  have a drawing tool that stores history so we can undo and redo drawings.  But wait!  What happens if I’m in the middle of a canvas masterpiece and my browser crashes?  Lets handle that with localStorage.  With localStorage we can store a named item locally independent of our session, so in the event of leaving the page, we can retrieve data from our previous encounter.  In this demo I did a simple test of the window.localStorage object to see if we can store data, and then I store the latest image so upon return you’ll at least be able to recover that data.  Here are the initializeCanvas and storeHistory functions with this additional feature added:<br><pre><code>var initializeCvs = function () {<br>    ctx.lineCap = "round";<br>    ctx.save();<br>    ctx.fillStyle = '#ffffff';<br>    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);<br>    ctx.restore();<br><br>    if (window.localStorage) {<br>        img = new Image();<br>        img.onload = function () {<br>            ctx.drawImage(img, 0, 0);<br>        };<br>        if (localStorage.curImg) {<br>            img.src = localStorage.curImg;<br>            blankCanvas = false;<br>        }<br>    }<br>}<br><br>var storeHistory = function () {<br>    img = canvas.toDataURL("image/png");<br>    history.pushState({ imageData: img }, "", window.location.href);<br><br>    if (window.localStorage) { localStorage.curImg = img; }<br>};<br></code></pre>You can see the full working demo in <a href="http://jsfiddle.net/cgack/JHr2P/" target="_blank" rel="external">this jsFiddle</a>.</div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/" data-id="cih2cjlr7000yr8lgr30491os" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-11-11-moving-to-octopress" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/11/11/2011-11-11-moving-to-octopress/" class="article-date">
+  <time datetime="2011-11-11T05:00:00.000Z" itemprop="datePublished">2011-11-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/11/11/2011-11-11-moving-to-octopress/">Moving to Octopress</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+I started blogging here a while back, mostly about the cloud and what I could do with my cool new chromebook the cr-48. &nbsp;I've hacked around a bit in the cloud using Chrome OS, but I find myself enjoying Ubuntu on my cr-48 more than Chrome OS. &nbsp;In my playing around with different sites, IDEs, tools, and engines I came across <a href="http://octopress.org/" target="_blank" rel="external">Octopress</a>&nbsp;and thought it would be fun to try it out. &nbsp;So I did and I liked it. &nbsp;From there I decided to move my blog over there for future posts. &nbsp;I went through the work to convert these blogger posts from here -&gt; go-cloud-go.blogspot.com (now blog.cgack.com) &nbsp;to their new home at cgack.com/blog but they likely aren't all picture perfect so if there are broken links or anything I apologize. &nbsp;So there you have it. this blog is moving to its new home at <a href="http://cgack.com/blog" target="_blank" rel="external">cgack.com/blog</a></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2011/11/11/2011-11-11-moving-to-octopress/" data-id="cih2cjlra000zr8lg3b0qpt9n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-10-24-firefox-add-on-automated-updates" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/10/24/2011-10-24-firefox-add-on-automated-updates/" class="article-date">
+  <time datetime="2011-10-24T04:00:00.000Z" itemprop="datePublished">2011-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/10/24/2011-10-24-firefox-add-on-automated-updates/">Firefox Add-on Automated Updates</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+Since Firefox moved to a rapid release cycle, there has been concern by some (including myself) as to whether add-ons would stay compatible with each of the new versions, and how one would go about testing to find any breaking changes.&nbsp; In news that makes a geek happy - Mozilla has taken care of that for me as I received notice from Mozilla that stated:<br><blockquote class="tr_bq">Dear add-on author,<br><br>Good news! Our automated tests did not detect any compatibility issues  with your add-on Google Music Hotkeys and Firefox 9.*. We've updated  your add-on's compatibility to work with Firefox 9.* so that our Aurora  users can begin using it.</blockquote><blockquote class="tr_bq">This compatibility bump is server-side and we did not modify your add-on  package in any way. If you wish or need to revert this change, just go  to your add-on edit page on <a href="http://addons.mozilla.org/" target="_blank">addons.mozilla.org</a>, select the Status &amp; Versions page, then the version, and change its maxVersion compatibility back to its previous value.<br><br>For more information on our new compatibility process with rapid Firefox releases, please read this post: <a href="http://blog.mozilla.com/addons/2011/04/19/add-on-compatibility-rapid-releases/" target="_blank">http://blog.mozilla.com/<wbr>addons/2011/04/19/add-on-<wbr>compatibility-rapid-releases/</a> </blockquote></div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2011/10/24/2011-10-24-firefox-add-on-automated-updates/" data-id="cih2cjlri0010r8lgzzjnvazl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/3G/">3G</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Book/">Book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/">IDE</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactJS/">ReactJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aviary/">aviary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chrome-os/">chrome os</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/">cloud</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cr-48/">cr-48</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dev-tools/">dev tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/verizon/">verizon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wi-fi/">wi-fi</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/3G/" style="font-size: 10px;">3G</a> <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/IDE/" style="font-size: 15px;">IDE</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactJS/" style="font-size: 10px;">ReactJS</a> <a href="/tags/aviary/" style="font-size: 10px;">aviary</a> <a href="/tags/chrome-os/" style="font-size: 20px;">chrome os</a> <a href="/tags/cloud/" style="font-size: 18.33px;">cloud</a> <a href="/tags/coding/" style="font-size: 16.67px;">coding</a> <a href="/tags/cr-48/" style="font-size: 13.33px;">cr-48</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/dev-tools/" style="font-size: 11.67px;">dev tools</a> <a href="/tags/google/" style="font-size: 10px;">google</a> <a href="/tags/html5/" style="font-size: 11.67px;">html5</a> <a href="/tags/verizon/" style="font-size: 10px;">verizon</a> <a href="/tags/wi-fi/" style="font-size: 10px;">wi-fi</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/09/16/Introduction To React - Officially Published!/">Introduction To React - Officially Published!</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/15/Trying to Run React Native Android on Windows/">Trying to Run React Native Android on Windows</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/09/Introduction to React/">Introduction to React</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/25/dev.Objective()/">dev.Objective()</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/04/Firefox Developer Edition/">Firefox Developer Edition</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cory Gackenheimer<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

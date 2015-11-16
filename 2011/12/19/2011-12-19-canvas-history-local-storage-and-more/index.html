@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Canvas, History, Local Storage and More | Out Of Scope</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="A few months ago I entered the August Mozilla Dev Derby, which focused on the History API. I have seen some of the amazing things that the new changes to this interface have been able to make from fol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Canvas, History, Local Storage and More">
+<meta property="og:url" content="http://cgack.github.io/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/index.html">
+<meta property="og:site_name" content="Out Of Scope">
+<meta property="og:description" content="A few months ago I entered the August Mozilla Dev Derby, which focused on the History API. I have seen some of the amazing things that the new changes to this interface have been able to make from fol">
+<meta property="og:updated_time" content="2015-11-16T19:25:24.921Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Canvas, History, Local Storage and More">
+<meta name="twitter:description" content="A few months ago I entered the August Mozilla Dev Derby, which focused on the History API. I have seen some of the amazing things that the new changes to this interface have been able to make from fol">
+  
+    <link rel="alternative" href="/atom.xml" title="Out Of Scope" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Out Of Scope</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://cgack.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2011-12-19-canvas-history-local-storage-and-more" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/" class="article-date">
+  <time datetime="2011-12-19T05:00:00.000Z" itemprop="datePublished">2011-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Canvas, History, Local Storage and More
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<div class="post">
+ A few months ago I entered the <a href="https://developer.mozilla.org/en-US/demos/devderby/2011/august/" target="_blank" rel="external">August Mozilla Dev Derby</a>, which focused on the History API. I have seen some of the amazing things that the new changes to this interface have been able to make from folks like <a href="https://www.facebook.com/note.php?note_id=438532093919" target="_blank" rel="external">Facebook</a> and <a href="https://github.com/blog/760-the-tree-slider" target="_blank" rel="external">GitHub</a> but I wanted to try something a little different. I had been hacking on a simple drawing canvas and decided that I could leverage the History API to create a more application like experience. Since winning the Derby, I’ve seen my code improved and extended in a <a href="https://developer.mozilla.org/en-US/demos/detail/paint-search" target="_blank" rel="external">later Dev Derby Entry</a>, and I turned it into a sample <a href="https://apps-preview.mozilla.org/en-US/apps/app/draw/?src=cb-dl-free" target="_blank" rel="external">application</a> for <a href="https://apps-preview.mozilla.org/en-US/apps/" target="_blank" rel="external">Mozilla’s new App experience</a>. Here’s a peek into the process of creating a drawing demo like the one I created.<br><h2>Basic Setup</h2>Firstly, we’re going to need to create a canvas.  This is pretty straightforward for those who have done this sort of thing before, but for a reminder that can look like the following<br><pre><code>    &lt;!DOCTYPE html&gt;<br>    &lt;html&gt;<br>    &lt;body&gt;<br>     &lt;div id="content"&gt;<br>        &lt;canvas id="canvas" height="500" width="500"&gt;&lt;/canvas&gt;<br>     &lt;/div&gt;<br>    &lt;/body&gt;<br>    &lt;/html&gt;<br></code></pre>Now that we have our canvas we can start to initialize it and get ready to roll with the fun features we’d like to demonstrate.<br><pre><code>var canvas = document.getElementById("canvas"),<br>    ctx = canvas.getContext("2d"),<br>    img, //more about this later<br>    blankCanvas = true; //this too<br></code></pre>We now need to set it up to allow for drawing.  This is done by adding a event listeners to the mouse events we’d like to watch.<br><pre><code>window.addEventListener("mousedown", setupDraw, false);<br>window.addEventListener("mousemove", setupDraw, false);<br>window.addEventListener("mouseup", setupDraw, false);<br></code></pre>You’ll notice the setupDraw function is called on all of these events.  This function will grab the coordinates of our pointer (less the offset of our lovely #content div and send those to our draw object.<br><pre><code>function setupDraw(event) {<br>    var cnt = document.getElementById("content"),<br>        coordinates = {<br>            x: event.pageX - cnt.offsetLeft,<br>            y: event.pageY - cnt.offsetTop<br>          };<br>    draw[event.type](coordinates);<br>};<br></code></pre>Now time for the drawing I’ll go ahead and let you peek at the source so you can follow along.<br><pre><code>var draw = {<br>    isDrawing: false,<br>    mousedown: function(coordinates) {<br>        ctx.beginPath();<br>        ctx.moveTo(coordinates.x, coordinates.y);<br>        this.isDrawing = true;<br>    },<br>    mousemove: function(coordinates) {<br>        if (this.isDrawing) {<br>            ctx.lineTo(coordinates.x, coordinates.y);<br>            ctx.stroke();<br>        }<br>    },<br>    mouseup: function(coordinates) {<br>        this.isDrawing = false;<br>        ctx.lineTo(coordinates.x, coordinates.y);<br>        ctx.stroke();<br>        ctx.closePath();<br>      }<br>};<br></code></pre>You’ll see this object directs to an event type specific function and handles the coordinates parameters which are passed into the object.  Following some basic canvas drawing steps for ctx.beginPath() -&gt; ctx.moveTo(x,y) -&gt; ctx.lineTo(x,y) -&gt; ctx.stroke() -&gt; ctx.closePath() we now have the ability to draw with our mouse.  The “isDrawing” property is there to let us know to continue our strokes on mousemove.  Now that we have an example that allows us to draw, we’ll move forward to make it more interesting by utilizing the History API and LocalStorage.<br><h2>About the History API</h2>One of the new features in HTML5 (an subject of the Dev Derby) is the additional features of the History API.   These are history.pushState(data,title [,url]) and history.replaceState(data, title [,url] ) which are utilized to directly push (or replace) data in the session history.  For the purposes of this demo we’ll be using pushState to add data, specifically the image data from the canvas, to the current URL.  Now this alone is not enough we will also need to know when the current state changes, which is made accessible to us via the window.onpopstate event.  This event fires when the browser gets a new history event.  We can inspect the event to see if it contains a state and then load the data (hopefully our image) into the canvas.  So to get things wired up correctly, its time to add a function to store the history.<br><pre><code>var storeHistory = function () {<br>    img = canvas.toDataURL("image/png");<br>    history.pushState({ imageData: img }, "", window.location.href);<br>};<br></code></pre>This grabs the data from the canvas in the form of a “data:image/png…” url.  Then we create a new history state by pushing an imageData attribute for later retrieval.  Now, before we add the calls to storeHistory to our drawing application, we need to do a bit of preventative maintenance.  If we store this data and navigate backward without a reinitialization of the canvas, we will just draw the stored imageData onto the existing image.  To us this will look like it isn’t working so we need to add an initialization function to reset our canvas.<br><pre><code>var initializeCvs = function () {<br>    ctx.lineCap = "round";<br>    ctx.save();<br>    ctx.fillStyle = '#ffffff';<br>    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);<br>    ctx.restore();<br>}<br></code></pre>Now we can go about the business of storing our history states.  The code that follows will store history in two places.  The first place it stores is if the canvas is blank it stores that before drawing anything.  The second is on the mouseup event after  the line is completed.  Now our draw object looks like this:<br><pre><code>var draw = {<br>    isDrawing: false,<br>    mousedown: function(coordinates) {<br>        if (blankCanvas) { storeHistory(); blankCanvas = false; }<br>        ctx.beginPath();<br>        ctx.moveTo(coordinates.x, coordinates.y);<br>        this.isDrawing = true;<br>    },<br>    mousemove: function(coordinates) {<br>        if (this.isDrawing) {<br>            ctx.lineTo(coordinates.x, coordinates.y);<br>            ctx.stroke();<br>        }<br>    },<br>    mouseup: function(coordinates) {<br>        this.isDrawing = false;<br>        ctx.lineTo(coordinates.x, coordinates.y);<br>        ctx.stroke();<br>        ctx.closePath();<br>        storeHistory();<br>    }<br>};<br></code></pre>Awesome, now we have started storing history on the page with each completed line.  Now we need to be able to see the results of this work when the history state changes.  As I mentioned earlier this is done via the window.onpopstate event.  We will examine the imageData of the state (if it exists) and place that image on the canvas as follows:<br><pre><code> window.onpopstate = function (event) {<br>        if (event.state !== null) {<br>            img = new Image();<br>            img.onload =function () {<br>                ctx.drawImage(img, 0, 0);<br>            };<br>            img.src = event.state.imageData;<br>        }<br>    };<br></code></pre>Splendid, we now  have a drawing tool that stores history so we can undo and redo drawings.  But wait!  What happens if I’m in the middle of a canvas masterpiece and my browser crashes?  Lets handle that with localStorage.  With localStorage we can store a named item locally independent of our session, so in the event of leaving the page, we can retrieve data from our previous encounter.  In this demo I did a simple test of the window.localStorage object to see if we can store data, and then I store the latest image so upon return you’ll at least be able to recover that data.  Here are the initializeCanvas and storeHistory functions with this additional feature added:<br><pre><code>var initializeCvs = function () {<br>    ctx.lineCap = "round";<br>    ctx.save();<br>    ctx.fillStyle = '#ffffff';<br>    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);<br>    ctx.restore();<br><br>    if (window.localStorage) {<br>        img = new Image();<br>        img.onload = function () {<br>            ctx.drawImage(img, 0, 0);<br>        };<br>        if (localStorage.curImg) {<br>            img.src = localStorage.curImg;<br>            blankCanvas = false;<br>        }<br>    }<br>}<br><br>var storeHistory = function () {<br>    img = canvas.toDataURL("image/png");<br>    history.pushState({ imageData: img }, "", window.location.href);<br><br>    if (window.localStorage) { localStorage.curImg = img; }<br>};<br></code></pre>You can see the full working demo in <a href="http://jsfiddle.net/cgack/JHr2P/" target="_blank" rel="external">this jsFiddle</a>.</div>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cgack.github.io/2011/12/19/2011-12-19-canvas-history-local-storage-and-more/" data-id="cih2cjlr7000yr8lgr30491os" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/12/23/2011-12-23-book-review-tangled-web/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Book Review: The Tangled Web
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/11/11/2011-11-11-moving-to-octopress/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Moving to Octopress</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/3G/">3G</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Book/">Book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IDE/">IDE</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactJS/">ReactJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aviary/">aviary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/chrome-os/">chrome os</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cloud/">cloud</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding/">coding</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cr-48/">cr-48</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dev-tools/">dev tools</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google/">google</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html5/">html5</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/verizon/">verizon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wi-fi/">wi-fi</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/3G/" style="font-size: 10px;">3G</a> <a href="/tags/Book/" style="font-size: 10px;">Book</a> <a href="/tags/IDE/" style="font-size: 15px;">IDE</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/ReactJS/" style="font-size: 10px;">ReactJS</a> <a href="/tags/aviary/" style="font-size: 10px;">aviary</a> <a href="/tags/chrome-os/" style="font-size: 20px;">chrome os</a> <a href="/tags/cloud/" style="font-size: 18.33px;">cloud</a> <a href="/tags/coding/" style="font-size: 16.67px;">coding</a> <a href="/tags/cr-48/" style="font-size: 13.33px;">cr-48</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/dev-tools/" style="font-size: 11.67px;">dev tools</a> <a href="/tags/google/" style="font-size: 10px;">google</a> <a href="/tags/html5/" style="font-size: 11.67px;">html5</a> <a href="/tags/verizon/" style="font-size: 10px;">verizon</a> <a href="/tags/wi-fi/" style="font-size: 10px;">wi-fi</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06/">June 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/09/16/Introduction To React - Officially Published!/">Introduction To React - Officially Published!</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/15/Trying to Run React Native Android on Windows/">Trying to Run React Native Android on Windows</a>
+          </li>
+        
+          <li>
+            <a href="/2015/07/09/Introduction to React/">Introduction to React</a>
+          </li>
+        
+          <li>
+            <a href="/2015/02/25/dev.Objective()/">dev.Objective()</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/04/Firefox Developer Edition/">Firefox Developer Edition</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 Cory Gackenheimer<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
